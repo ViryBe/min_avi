@@ -1,0 +1,388 @@
+\documentclass[footheight=2em]{beamer}
+\usetheme[hideothersubsections]{Hannover}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage{ulem}
+\usepackage{gensymb}
+
+\usecolortheme{dolphin}
+
+\title{Projet avion mineure AVI}
+\author{Damien Thoral, Gabriel Hondet, Benoit Viry}
+\date{}
+
+% ----------------------------------------------------------
+% nuremotation des pages -----------------------------------
+% ----------------------------------------------------------
+\def\swidth{1.6cm}
+\setbeamersize{sidebar width left=\swidth}
+\setbeamertemplate{sidebar left}
+{
+  {\usebeamerfont{title in sidebar}
+    \vskip1.5em
+    \usebeamercolor[fg]{title in sidebar}
+    \insertshorttitle[width=\swidth,center,respectlinebreaks]\par
+    \vskip1.25em
+  }
+  {
+    \usebeamercolor[fg]{author in sidebar}
+    \usebeamerfont{author in sidebar}
+    \insertshortauthor[width=\swidth,center,respectlinebreaks]\par
+    \vskip1.25em
+  }
+  \hbox to2cm{\hss\insertlogo\hss}
+  \vskip1.25em
+  \insertverticalnavigation{\swidth}
+  \vfill
+  \hbox to2cm{\hskip0.6cm\usebeamerfont{subsection in
+      sidebar}\strut\usebeamercolor[fg]{subsection in
+      sidebar}\insertframenumber /\inserttotalframenumber\hfill}
+  \vskip3pt
+}
+% ----------------------------------------------------------
+
+\begin{document}
+
+\frame{\titlepage}
+
+\AtBeginSection[]
+{
+  \begin{frame}
+    \frametitle{Plan}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\section{Modèle avion}
+\subsection{Rappels}
+\begin{frame}
+    \frametitle{Rappel équations de la dynamique}\pause
+    \'Equations de la dynamique:
+    $$
+    \left\{
+    \begin{array}{l}
+        m\dot{V} = T - D - mg\sin \gamma \\
+        mV\dot{\gamma} = L\cos \phi - mg \cos \gamma \\
+        mV \cos \gamma \dot{\psi} = L \sin \phi\\
+        \dot{\phi} = p
+    \end{array}
+    \right.
+    $$
+
+    Facteurs de charges longitudinal et vertical :
+
+    \begin{center}
+        \begin{tabular}{cc}
+            $n_x = \frac{T - D}{mg}$ & $n_z = \frac{L}{mg}$
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\subsection{Facteur de charge}
+\begin{frame}
+    \frametitle{$n_z = \frac{L}{mg}$ pour un virage}\pause
+    En palier : $\gamma = 0$ et $\dot{\gamma} = 0$ \pause
+
+    Avec $$mV\dot{\gamma} = L\cos \phi - mg \cos \gamma$$
+    on a $$L=\frac{mg}{\cos \phi}$$ \pause
+    D'où :$$\boxed{n_z = \frac{1}{\cos \phi}}$$
+\end{frame}
+
+\begin{frame}
+    \frametitle{Rayon de virage}\pause
+    En palier : $\gamma = 0$ et $\dot{\gamma} = 0$\pause
+
+    $$\sout{m}V\dot{\psi} = \sout{m}g\tan \phi$$\pause
+    avec
+
+    \begin{center}
+        \begin{tabular}{ccc}
+            $V = R\dot{\psi}$ & $\Longrightarrow$ &
+            $\frac{V^2}{R} = g \tan \phi$
+        \end{tabular}
+    \end{center}\pause
+
+    D'où le rayon de virage:
+    $$\boxed{R = \frac{V^2}{g\tan \phi}}$$
+\end{frame}
+
+% \subsection{$n_z$ ressource}
+
+\begin{frame}
+    \frametitle{$n_z = \frac{L}{mg}$ pour une ressource}\pause
+    En ressource : $\phi = 0$ et $\dot{\phi} = 0$\pause
+
+    Avec $$mV\dot{\gamma} = L\cos \phi - mg \cos \gamma$$
+    on a :$$L = m(V\dot{\gamma} + g \cos \gamma)$$ \pause
+    D'où :$$\boxed{n_z = \frac{V\dot{\gamma}}{g} + \cos \gamma}$$
+\end{frame}
+
+\subsection{Représentation d'état}
+
+\begin{frame}
+    \frametitle{Representation d'états non-linéaire}\pause
+    Notons :
+    $$
+    \left\{
+    \begin{array}{l}
+        \underline{x}(t) = [V(t), \gamma (t), \psi (t), \phi (t)]^{T}\\
+        \underline{u}(t) = [n_x(t), n_z(t), p(t)]^{T}
+    \end{array}
+    \right.
+    $$\pause
+    $$
+    \left[
+    \begin{array}{c}
+        \dot{V}(t)\\
+        \dot{\gamma}(t)\\
+        \dot{\psi}(t)\\
+        \dot{\phi}(t)
+    \end{array}
+    \right]
+    =
+    \left[
+    \begin{array}{c}
+        T - D - mg \sin \gamma\\
+        \frac{L\cos \phi - mg\cos \gamma}{mV}\\
+        \frac{L\sin \phi}{mV\cos \gamma} \\
+        p
+    \end{array}
+    \right]
+    =
+    \left[
+    \begin{array}{c}
+        g(n_x - \sin \gamma) \\
+        \frac{g}{V}(n_z \cos \phi - \cos \gamma)\\
+        g \frac{n_z \sin \phi}{V \cos \gamma} \\
+        p
+    \end{array}
+    \right]
+    $$\pause
+    $$
+    \underline{\dot{x}}(t)=f(\underline{x}(t),\underline{u}(t))
+    $$
+\end{frame}
+
+\subsection{Linéarisation}
+\begin{frame}
+    \frametitle{Point d'équilibre}\pause
+    Trouvons un point d'équilibre
+    $$
+    \left\{
+    \begin{array}{l}
+        \underline{x_e} = [V_e, \gamma_e, \psi_e, \phi_e]^{T}\\
+        \underline{u_e} = [n_{xe}, n_{ze}, p_e]^{T}
+    \end{array}
+    \right.
+    $$
+    Tel que :
+    $$
+    \underline{\dot{x}_e} = f(\underline{x_e}, \underline{u_e}) = 0
+    $$\pause
+    Soit :
+    $$
+    \left\{
+    \begin{array}{l}
+        g(n_{xe} - \sin \gamma_e) = 0\\
+        \frac{g}{V_e}(n_{ze} \cos \phi_e - \cos \gamma_e) = 0\\
+        g \frac{n_{ze} \sin \phi_e}{V_e \cos \gamma_e} = 0\\
+        p_e = 0
+    \end{array}
+    \right.
+    $$
+\end{frame}
+
+\begin{frame}
+    \frametitle{Point d'équilibre}\pause
+    D'où :
+    $$
+    \left\{
+    \begin{array}{l}
+        n_{xe} = \sin \gamma_e \\
+        n_{ze} \cos \phi_e = \cos \gamma_e \\
+        n_{ze} \sin \phi_e = 0 \Longrightarrow \phi_e = 0 \\
+        p_e = 0
+    \end{array}
+    \right.
+    $$\pause
+    Commandes au point d'équilibre :
+    $$\boxed
+    {
+        \left\{
+        \begin{array}{l}
+            n_{xe} = \sin \gamma_e \\
+            n_{ze} = \cos \gamma_e \\
+            p_e = 0
+        \end{array}
+        \right.
+    }
+    $$
+\end{frame}
+
+\begin{frame}
+    \frametitle{Autour du point d'équilibre}\pause
+    Notons:
+    $$
+    \left\{
+    \begin{array}{l}
+        \underline{x} = \underline{x_e} + \delta \underline{x} \\
+        \underline{u} = \underline{u_e} + \delta \underline{u}
+    \end{array}
+    \right.
+    $$\pause
+    Il vient:
+    \begin{align*}
+        \underline{\dot{x}} = \delta \underline{\dot{x}} &=
+        f(\underline{x}, \underline{u}) \\
+            &= f(\underline{x_e} + \delta \underline{x},
+                 \underline{u_e} + \delta \underline{u}) \\
+            (Taylor) &= \underbrace{f(\underline{x_e}, \underline{u_e})}_{=0} +
+                        \underbrace
+                        {
+                        \left.
+                        \frac{\partial f}{\partial \underline{x}}
+                        \right| _{\underline{x} = \underline{x_e},
+                                 \underline{u} = \underline{u_e}}
+                        }_{=A}\delta \underline{x}
+                        +
+                        \underbrace
+                        {
+                         \left.
+                         \frac{\partial f}{\partial \underline{u}}
+                         \right| _{\underline{x} = \underline{x_e},
+                                  \underline{u} = \underline{u_e}}
+                        }_{=B}\delta \underline{u}
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Autour du point d'équilibre}\pause
+    $$
+    A =
+    \left[
+    \begin{array}{cccc}
+        0 & -g \cos \gamma_e & 0 & 0 \\
+        -\frac{g(n_{ze} \cos \phi_e - \cos \gamma_e)}{V_e^2}
+            & \frac{g}{V_e}\sin \gamma_e & 0
+            & -\frac{gn_{ze}}{V_e}\sin \phi_e \\
+        -\frac{gn_{ze} \sin \phi_e}{V_e^2 \cos \gamma_e}
+            & \frac{gn_{ze} \sin \phi_e \sin \gamma_e}{V_e \cos^2 \gamma_e}
+            & 0 & \frac{gn_{ze}\cos \phi_e}{V \cos \gamma_e} \\
+        0 & 0 & 0 & 0
+    \end{array}
+    \right]
+    $$\pause
+    $$
+    B =
+    \left[
+    \begin{array}{cccc}
+        g & 0 & 0 \\
+        0 & \frac{g\cos \phi_e}{V} & 0 \\
+        0 & \frac{g\sin \phi_e}{V\cos \gamma_e} & 0 \\
+        0 & 0 & 1
+    \end{array}
+    \right]
+    $$\pause
+    $$
+    C = Id \qquad D = 0
+    $$
+\end{frame}
+
+\begin{frame}
+    \frametitle{Exemple de point d'équilibre}\pause
+    $$
+    \left\{
+    \begin{array}{l}
+        V_e = 250 kt \\
+        \gamma_e = \psi_e = \phi_e = 0 \degree
+    \end{array}
+    \right.
+    $$
+    $$
+    A =
+    \left[
+    \begin{array}{cccc}
+        0 & -g & 0 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & \frac{g}{V} \\
+        0 & 0 & 0 & 0
+    \end{array}
+    \right]
+    \qquad
+    B =
+    \left[
+    \begin{array}{cccc}
+        g & 0 & 0 \\
+        0 & \frac{g}{V} & 0 \\
+        0 & 0 & 0 \\
+        0 & 0 & 1
+    \end{array}
+    \right]
+    $$
+\end{frame}
+
+\subsection{Exemples}
+
+\begin{frame}
+    \frametitle{Valeurs dans l'aviation civile}\pause
+    Facteur de charge logitudinal :
+    $$
+    ? \le n_x \le ?
+    $$\pause
+    Facteur de charge vertical :
+    $$
+    -1g \le n_z \le 2,5g
+    $$\pause
+    Inclinaison de l'avion (Airbus):
+    $$
+    -66\degree \le \phi \le 66\degree
+    $$\pause
+    Vitesse de roulis (Airbus):
+    $$
+    \max 15\degree
+    $$
+\end{frame}
+
+\section{D\'ecouplage}
+\subsection{D\'ecouplage initial}
+\begin{frame}
+    \[
+        \begin{bmatrix}
+            \delta \dot{V} \\ \dot{\gamma}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            0 & -g \\
+            0 & 0
+        \end{bmatrix}
+        +
+        \begin{bmatrix}
+            g & 0 \\
+            0 & g/V_e
+        \end{bmatrix}
+        \begin{bmatrix}
+            n_x \\ \delta n_z
+        \end{bmatrix}
+    \]
+\end{frame}
+\begin{frame}
+    \frametitle{Utilisation d'un retour d'\'etat}
+    En notant $r = (\delta V_c \; \gamma_c)^\top$, on pose avec $K \in
+    \mathcal{M}_{2\times 2}$,
+    \[ \underline{u} = \underline{r} - K\underline{x} \]
+\end{frame}
+
+\section{toto}
+
+\subsection{tata}
+
+\begin{frame}
+    \frametitle{tototatatiti}
+\end{frame}
+
+
+
+\end{document}
