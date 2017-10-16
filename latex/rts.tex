@@ -1,0 +1,110 @@
+\documentclass[10pt]{article}
+\usepackage[landscape,a4paper,centering,twocolumn,
+textwidth=290mm,textheight=205mm]{geometry}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\usepackage[reqno]{amsmath}
+\usepackage{amssymb,amsthm,stmaryrd}
+\usepackage{unicode-math}
+\usepackage{paralist}
+\usepackage{color,bbding}
+
+\pagenumbering{gobble}
+\setlength\columnseprule{0.4pt}
+\setdefaultlanguage{french}
+
+\newcommand\R{\mathbb{R}}
+\newcommand\N{\mathbb{N}}
+\newcommand\K{\mathbb{K}}
+\newcommand\abs[1]{\left\lvert#1\right\rvert}
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\newcommand\val[1]{\textcolor{blue}{#1}}
+\newcommand\att[1]{\textcolor{red}{\FourStar}\textcolor{blue}{#1}}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Théorème}
+\newtheorem{cor}[thm]{Corollaire}
+\newtheorem{lem}[thm]{Lemme}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{propdef}[thm]{Proposition \& définition}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Définition}
+
+\theoremstyle{remark}
+\newtheorem{rem}{Remarque}
+\newtheorem*{xrem}{Remarque}
+\newtheorem{ex}[rem]{Exemple}
+\newtheorem{meth}[rem]{Méthode}
+
+\begin{document}
+\begin{center}
+    \Large\textbf{Real Time Computing}
+\end{center}
+\begin{itemize}
+    \item System that reacts to exteriors events. Events are
+        asynchronous regarding the activites carried out by the computer.
+    \item Every events must be treated, real time systems or reactive systems.
+    \item The system must react in a specified delay.
+    \item Determinism is compulsory, each operation must be done in a defined
+        amount of time.
+\end{itemize}
+
+\section{Fundamentals}
+\subsection{Real Time System}
+\begin{defn}
+    A real time system is a system which reacts in a foreseeable time to each
+    external stimuli which reaches it.
+
+    Processing time must not depend on the input data.
+\end{defn}
+\begin{rem}
+    Use of buffers endangers determinism, for instance, computing time won't be
+    the same if data has been buffered.
+\end{rem}
+
+\subsection{RTS taxonomy}
+Three types of rts:
+\begin{itemize}
+    \item Hard real-time: critical system, every deadline must be treated, in 
+        the given amount of time.
+    \item Soft real-time: some deadlines can be missed.
+\end{itemize}
+
+\paragraph{Lifetime of data}
+Data must be processed quickly enough, as they might be transient (e.g.\ gnss
+location while moving). To manage data, they are timestamped. This timestamp is
+examined before processing data to verify whether the data is relevant.
+
+\subsection{Time factor}
+Application based real time systems 
+\begin{itemize}
+    \item Delivery time: max amount of time allowed to carry out the associated
+        processing to an event.
+    \item Urgency: Require to impose a priority hierarchy taking into account
+        simultaneous event requests while insuring that each event could be
+        dealt with within its own time limit (delivery time). Enables conceptor
+        to set priorities to tasks.
+\end{itemize}
+
+\subsection{Dealing with the Timing Constraints}
+\begin{description}
+    \item [Low timing constraint]
+        \begin{itemize}
+            \item Process evolving relatively slowly (compared to the system).
+            \item Use of a sampling loop, in which  each sensor is queried.
+            \item Looping frequency must be controlled (worst case).
+        \end{itemize}
+    \item[Low timing constraint overall and  constraining events]
+        \begin{itemize}
+            \item Use of interruption mechanism.
+            \item Still using a main sampling loop, interrupted by interrupt
+                requests.
+        \end{itemize}
+\end{description}
+
+
+\section{Technology}
+
+\section{Simulation}
+\end{document}
