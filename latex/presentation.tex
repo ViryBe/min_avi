@@ -8,6 +8,7 @@
 \usepackage{color}
 \usepackage{ulem}
 \usepackage{gensymb}
+\usepackage[]{tikz}
 
 \usecolortheme{dolphin}
 
@@ -21,7 +22,7 @@
 \def\swidth{1.6cm}
 \setbeamersize{sidebar width left=\swidth}
 \setbeamertemplate{sidebar left}
-{
+{%
   {\usebeamerfont{title in sidebar}
     \vskip1.5em
     \usebeamercolor[fg]{title in sidebar}
@@ -50,7 +51,7 @@
 \frame{\titlepage}
 
 \AtBeginSection[]
-{
+{%
   \begin{frame}
     \frametitle{Plan}
     \tableofcontents[currentsection]
@@ -455,9 +456,7 @@
 \begin{frame}
     \frametitle{Bouclage} \pause{}
     \begin{center}
-        /////////////////////\\
-        // schema bouclage //\\
-        /////////////////////
+        \input{block_diag_1.tex}
     \end{center}
     \[
     \underline{U}(p) = -K \underline{X}(p) + H \underline{R}(p)
