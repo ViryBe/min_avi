@@ -59,81 +59,81 @@
 \section{Modèle avion}
 \subsection{Rappels}
 \begin{frame}
-    \frametitle{Rappel équations de la dynamique}\pause
+    \frametitle{Rappel équations de la dynamique} \pause{}
     \'Equations de la dynamique:
-    $$
-    \left\{
+    \[
+    \left \{
     \begin{array}{l}
         m\dot{V} = T - D - mg\sin \gamma \\
         mV\dot{\gamma} = L\cos \phi - mg \cos \gamma \\
-        mV \cos \gamma \dot{\psi} = L \sin \phi\\
+        mV \cos \gamma \dot{\psi} = L \sin \phi \\
         \dot{\phi} = p
     \end{array}
     \right.
-    $$
+    \]
 
-    Facteurs de charges longitudinal et vertical :
+    Facteurs de charges longitudinal et vertical:
 
     \begin{center}
         \begin{tabular}{cc}
-            $n_x = \frac{T - D}{mg}$ & $n_z = \frac{L}{mg}$
+            \(n_x = \frac{T - D}{mg}\) & \(n_z = \frac{L}{mg}\)
         \end{tabular}
     \end{center}
 \end{frame}
 
 \subsection{Facteur de charge}
 \begin{frame}
-    \frametitle{$n_z = \frac{L}{mg}$ pour un virage}\pause
-    En palier : $\gamma = 0$ et $\dot{\gamma} = 0$ \pause
+    \frametitle{\(n_z = \frac{L}{mg}\) pour un virage}\pause{}
+    En palier: \(\gamma = 0\) et \(\dot{\gamma} = 0\) \pause{}
 
-    Avec $$mV\dot{\gamma} = L\cos \phi - mg \cos \gamma$$
-    on a $$L=\frac{mg}{\cos \phi}$$ \pause
-    D'où :$$\boxed{n_z = \frac{1}{\cos \phi}}$$
+    Avec \[ mV\dot{\gamma} = L\cos \phi - mg \cos \gamma \]
+    on a \[ L=\frac{mg}{\cos \phi}\] \pause{}
+    D'où:\[ \boxed{n_z = \frac{1}{\cos \phi}}\]
 \end{frame}
 
 \begin{frame}
-    \frametitle{Rayon de virage}\pause
-    En palier : $\gamma = 0$ et $\dot{\gamma} = 0$\pause
+    \frametitle{Rayon de virage}\pause{}
+    En palier: \(\gamma = 0\) et \(\dot{\gamma} = 0\) \pause{}
 
-    $$\sout{m}V\dot{\psi} = \sout{m}g\tan \phi$$\pause
+    \[ \sout{m}V\dot{\psi} = \sout{m}g\tan \phi \] \pause{}
     avec
 
     \begin{center}
         \begin{tabular}{ccc}
-            $V = R\dot{\psi}$ & $\Longrightarrow$ &
-            $\frac{V^2}{R} = g \tan \phi$
+            \(V = R\dot{\psi}\) & \(\Longrightarrow \) &
+            \(\frac{V^2}{R} = g \tan \phi \)
         \end{tabular}
-    \end{center}\pause
+    \end{center}\pause{}
 
     D'où le rayon de virage:
-    $$\boxed{R = \frac{V^2}{g\tan \phi}}$$
+    \[ \boxed{R = \frac{V^2}{g\tan \phi}}\]
 \end{frame}
 
 % \subsection{$n_z$ ressource}
 
 \begin{frame}
-    \frametitle{$n_z = \frac{L}{mg}$ pour une ressource}\pause
-    En ressource : $\phi = 0$ et $\dot{\phi} = 0$\pause
+    \frametitle{\(n_z = \frac{L}{mg}\) pour une ressource}\pause{}
+    En ressource: \(\phi = 0\) et \(\dot{\phi} = 0\)\pause{}
 
-    Avec $$mV\dot{\gamma} = L\cos \phi - mg \cos \gamma$$
-    on a :$$L = m(V\dot{\gamma} + g \cos \gamma)$$ \pause
-    D'où :$$\boxed{n_z = \frac{V\dot{\gamma}}{g} + \cos \gamma}$$
+    Avec \[ mV\dot{\gamma} = L\cos \phi - mg \cos \gamma \]
+    on a:\[ L = m(V\dot{\gamma} + g \cos \gamma)\] \pause{}
+    D'où:\[ \boxed{n_z = \frac{V\dot{\gamma}}{g} + \cos \gamma}\]
 \end{frame}
 
 \subsection{Représentation d'état}
 
 \begin{frame}
-    \frametitle{Representation d'états non-linéaire}\pause
-    Notons :
-    $$
-    \left\{
+    \frametitle{Representation d'états non-linéaire}\pause{}
+    Notons:
+    \[
+    \left \{
     \begin{array}{l}
-        \underline{x}(t) = [V(t), \gamma (t), \psi (t), \phi (t)]^{T}\\
-        \underline{u}(t) = [n_x(t), n_z(t), p(t)]^{T}
+        \underline{x}(t) = {[V(t), \gamma (t), \psi (t), \phi (t)]}^{T}\\
+        \underline{u}(t) = {[n_x(t), n_z(t), p(t)]}^{T}
     \end{array}
     \right.
-    $$\pause
-    $$
+    \]\pause{}
+    \[
     \left[
     \begin{array}{c}
         \dot{V}(t)\\
@@ -145,8 +145,8 @@
     =
     \left[
     \begin{array}{c}
-        T - D - mg \sin \gamma\\
-        \frac{L\cos \phi - mg\cos \gamma}{mV}\\
+        T - D - mg \sin \gamma \\
+        \frac{L\cos \phi - mg\cos \gamma}{mV} \\
         \frac{L\sin \phi}{mV\cos \gamma} \\
         p
     \end{array}
@@ -160,31 +160,31 @@
         p
     \end{array}
     \right]
-    $$\pause
-    $$
+    \]\pause{}
+    \[
     \underline{\dot{x}}(t)=f(\underline{x}(t),\underline{u}(t))
-    $$
+    \]
 \end{frame}
 
 \subsection{Linéarisation}
 \begin{frame}
-    \frametitle{Point d'équilibre}\pause
+    \frametitle{Point d'équilibre}\pause{}
     Trouvons un point d'équilibre
-    $$
-    \left\{
+    \[
+    \left \{
     \begin{array}{l}
-        \underline{x_e} = [V_e, \gamma_e, \psi_e, \phi_e]^{T}\\
-        \underline{u_e} = [n_{xe}, n_{ze}, p_e]^{T}
+        \underline{x_e} = {[V_e, \gamma_e, \psi_e, \phi_e]}^{T}\\
+        \underline{u_e} = {[n_{xe}, n_{ze}, p_e]}^{T}
     \end{array}
     \right.
-    $$
-    Tel que :
-    $$
+    \]
+    Tel que:
+    \[
     \underline{\dot{x}_e} = f(\underline{x_e}, \underline{u_e}) = 0
-    $$\pause
-    Soit :
-    $$
-    \left\{
+    \]\pause{}
+    Soit:
+    \[
+    \left \{
     \begin{array}{l}
         g(n_{xe} - \sin \gamma_e) = 0\\
         \frac{g}{V_e}(n_{ze} \cos \phi_e - \cos \gamma_e) = 0\\
@@ -192,14 +192,14 @@
         p_e = 0
     \end{array}
     \right.
-    $$
+    \]
 \end{frame}
 
 \begin{frame}
-    \frametitle{Point d'équilibre}\pause
-    D'où :
-    $$
-    \left\{
+    \frametitle{Point d'équilibre}\pause{}
+    D'où:
+    \[
+    \left \{
     \begin{array}{l}
         n_{xe} = \sin \gamma_e \\
         n_{ze} \cos \phi_e = \cos \gamma_e \\
@@ -207,11 +207,11 @@
         p_e = 0
     \end{array}
     \right.
-    $$\pause
-    Commandes au point d'équilibre :
-    $$\boxed
+    \]\pause{}
+    Commandes au point d'équilibre:
+    \[\boxed
     {
-        \left\{
+        \left \{
         \begin{array}{l}
             n_{xe} = \sin \gamma_e \\
             n_{ze} = \cos \gamma_e \\
@@ -219,20 +219,20 @@
         \end{array}
         \right.
     }
-    $$
+    \]
 \end{frame}
 
 \begin{frame}
-    \frametitle{Autour du point d'équilibre}\pause
+    \frametitle{Autour du point d'équilibre}\pause{}
     Notons:
-    $$
-    \left\{
+    \[
+    \left \{
     \begin{array}{l}
         \underline{x} = \underline{x_e} + \delta \underline{x} \\
         \underline{u} = \underline{u_e} + \delta \underline{u}
     \end{array}
     \right.
-    $$\pause
+    \]\pause{}
     Il vient:
     \begin{align*}
         \underline{\dot{x}} = \delta \underline{\dot{x}} &=
@@ -259,8 +259,8 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Autour du point d'équilibre}\pause
-    $$
+    \frametitle{Autour du point d'équilibre}\pause{}
+    \[
     A =
     \left[
     \begin{array}{cccc}
@@ -274,8 +274,8 @@
         0 & 0 & 0 & 0
     \end{array}
     \right]
-    $$\pause
-    $$
+    \]\pause{}
+    \[
     B =
     \left[
     \begin{array}{cccc}
@@ -285,29 +285,29 @@
         0 & 0 & 1
     \end{array}
     \right]
-    $$\pause
-    $$
+    \]\pause{}
+    \[
     C = Id \qquad D = 0
-    $$
+    \]
 \end{frame}
 
 \begin{frame}
-    \frametitle{Exemple de point d'équilibre}\pause
-    $$
-    \left\{
+    \frametitle{Exemple de point d'équilibre}\pause{}
+    \[
+    \left \{
     \begin{array}{l}
         V_e = 250 kt \\
         \gamma_e = \psi_e = \phi_e = 0 \degree
     \end{array}
     \right.
-    $$
-    $$
+    \]
+    \[
     A =
     \left[
     \begin{array}{cccc}
         0 & -g & 0 & 0 \\
         0 & 0 & 0 & 0 \\
-        0 & 0 & 0 & \frac{g}{V} \\
+        0 & 0 & 0 & \frac{g}{V_e} \\
         0 & 0 & 0 & 0
     \end{array}
     \right]
@@ -316,73 +316,374 @@
     \left[
     \begin{array}{cccc}
         g & 0 & 0 \\
-        0 & \frac{g}{V} & 0 \\
+        0 & \frac{g}{V_e} & 0 \\
         0 & 0 & 0 \\
         0 & 0 & 1
     \end{array}
     \right]
-    $$
+    \]
 \end{frame}
 
 \subsection{Exemples}
 
 \begin{frame}
-    \frametitle{Valeurs dans l'aviation civile}\pause
-    Facteur de charge logitudinal :
-    $$
-    ? \le n_x \le ?
-    $$\pause
-    Facteur de charge vertical :
-    $$
-    -1g \le n_z \le 2,5g
-    $$\pause
-    Inclinaison de l'avion (Airbus):
-    $$
-    -66\degree \le \phi \le 66\degree
-    $$\pause
-    Vitesse de roulis (Airbus):
-    $$
-    \max 15\degree
-    $$
-\end{frame}
-
-\section{D\'ecouplage}
-\subsection{D\'ecouplage initial}
-\begin{frame}
+    \frametitle{Valeurs dans l'aviation civile}\pause{}
+    Facteur de charge logitudinal:
     \[
-        \begin{bmatrix}
-            \delta \dot{V} \\ \dot{\gamma}
-        \end{bmatrix}
-        =
-        \begin{bmatrix}
-            0 & -g \\
-            0 & 0
-        \end{bmatrix}
-        +
-        \begin{bmatrix}
-            g & 0 \\
-            0 & g/V_e
-        \end{bmatrix}
-        \begin{bmatrix}
-            n_x \\ \delta n_z
-        \end{bmatrix}
+    ? \le n_x \le ?
+    \]\pause{}
+    Facteur de charge vertical:
+    \[
+    -1g \le n_z \le 2,5g
+    \]\pause{}
+    Inclinaison de l'avion (Airbus):
+    \[
+    -66\degree \le \phi \le 66\degree
+    \] \pause{}
+    Vitesse de roulis (Airbus):
+    \[
+    \max 15\degree
     \]
 \end{frame}
-\begin{frame}
-    \frametitle{Utilisation d'un retour d'\'etat}
-    En notant $r = (\delta V_c \; \gamma_c)^\top$, on pose avec $K \in
-    \mathcal{M}_{2\times 2}$,
-    \[ \underline{u} = \underline{r} - K\underline{x} \]
-\end{frame}
 
-\section{toto}
+% seance 2
 
-\subsection{tata}
+\section{Synthèse des modes de bases}
+
+\subsection{1er découplage}
 
 \begin{frame}
-    \frametitle{tototatatiti}
+    \frametitle{Modèle linéaire} \pause{}
+    Autour du point d'équilibre:
+    \[
+    \left \{
+    \begin{array}{c}
+        \delta{} \underline{X} = {[\delta V, \gamma, \psi, \phi]}^{T} \\
+        \delta{} \underline{u} = {[n_x, \delta n_z, p]}^{T}
+    \end{array}
+    \right.
+    \]
+    \[
+    \delta \dot{\underline{X}}
+    =
+    \left[
+    \begin{array}{cccc}
+        0 & -g & 0 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & \frac{g}{V_e} \\
+        0 & 0 & 0 & 0
+    \end{array}
+    \right]
+    \delta{} \underline{X}
+    +
+    \left[
+    \begin{array}{cccc}
+        g & 0 & 0 \\
+        0 & \frac{g}{V_e} & 0 \\
+        0 & 0 & 0 \\
+        0 & 0 & 1
+    \end{array}
+    \right]
+    \delta{} \underline{u}
+    \] \pause{}
+    \( \implies \) découplage des équations \( \delta V, \gamma \) et \( \psi, \phi \)
 \end{frame}
 
+\begin{frame}
+    \frametitle{2 systèmes d'ordres 2} \pause{}
+    On obtient 2 systèmes du 2ème ordre:
+    \[
+    (1)
+    \left \{
+    \begin{array}{c}
+        \delta \dot{V} = -g \gamma + g n_x \\
+        \dot{\gamma} = \frac{g}{V_e}n_z
+    \end{array}
+    \right.
+    \quad \text{et} \qquad
+    (2)
+    \left \{
+    \begin{array}{c}
+        \dot{\psi} = \frac{g}{V_e} \phi \\
+        \dot{\phi} = p
+    \end{array}
+    \right.
+    \] \pause{}
+    D'ou le système suivant d'après \( (1) \):
+    \[
+    \left[
+    \begin{array}{c}
+        \delta \dot{V}\\
+        \dot{\gamma}
+    \end{array}
+    \right]
+    =
+    \underbrace{
+        \left[
+        \begin{array}{cc}
+            0 & -g \\
+            0 & 0
+        \end{array}
+        \right]
+    }_{A}
+    \left[
+    \begin{array}{c}
+        \delta V\\
+        \gamma
+    \end{array}
+    \right]
+    +
+    \underbrace{
+        \left[
+        \begin{array}{cc}
+            g & 0 \\
+            0 & \frac{g}{V_e}
+        \end{array}
+        \right]
+    }_{B}
+    \left[
+    \begin{array}{c}
+        n_x \\
+        \delta n_z
+    \end{array}
+    \right]
+    \]
+\end{frame}
 
+\subsection{Bouclage du système}
+
+\begin{frame}
+    \frametitle{Bouclage} \pause{}
+    \begin{center}
+        /////////////////////\\
+        // schema bouclage //\\
+        /////////////////////
+    \end{center}
+    \[
+    \underline{U}(p) = -K \underline{X}(p) + H \underline{R}(p)
+    \]
+    \[
+    \underline{u}(t) = -K \underline{x}(t) + H \underline{r}(t)
+    \]
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Gain de retour -- Pré-commande} \pause{}
+    Avec le bouclage:
+    \[
+    \underline{u}(t) = -\underbrace{K}_{2 \times 2} \underline{x}(t) +
+        \underbrace{H}_{2 \times 2} \underline{r}(t)
+    \] \pause{}
+    En posant:
+    \[
+    K =
+    \left[
+    \begin{array}{cc}
+        k_{11} & k_{12} \\
+        k_{21} & k_{22}
+    \end{array}
+    \right]\quad
+    \text{et}\quad
+    H =
+    \left[
+    \begin{array}{cc}
+        h_{11} & h_{12} \\
+        h_{21} & h_{22}
+    \end{array}
+    \right]
+    \] \pause{}
+    Il vient:
+    \[
+    \underline{\dot{x}}(t)
+    =
+    \left[
+    \begin{array}{cc}
+        -g k_{11} & -g (1+K_{12}) \\
+        -\frac{g}{V_e} k_{21} & -\frac{g}{V_e} k_{22}
+    \end{array}
+    \right]
+    \underline{x} (t)
+    +
+    \left[
+    \begin{array}{cc}
+        g h_{11} & g h_{12} \\
+        \frac{g}{V_e} h_{21} & \frac{g}{V_e} h_{22}
+    \end{array}
+    \right]
+    \underline{r} (t)
+    \]
+\end{frame}
+
+\subsection{2ème découplage}
+
+\begin{frame}
+    \frametitle{Découplage} \pause{}
+    Les hypothèses de découplages induisent les contraintes:
+    \[
+    \left \{
+    \begin{array}{l}
+        k_{12} = -1 \\
+        k_{12} = 0
+    \end{array}
+    \right.\quad
+    \text{et}\quad
+    \left \{
+    \begin{array}{l}
+        h_{12} = 0 \\
+        h_{12} = 0
+    \end{array}
+    \right.
+    \]
+    \pause{}
+    D'où le système découplé:
+    \[
+    \left \{
+    \begin{array}{l}
+        \delta \dot{V} = -g k_{11} \delta V + g \delta h_{11} V_c \\
+        \dot{\gamma} = -\frac{g}{V_e} k_{22} \gamma + \frac{g}{V_e} h_{22} \gamma_c
+    \end{array}
+    \right.
+    \]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Équations découplées} \pause{}
+    Par identification avec des systèmes du 1er ordre, de la forme
+    \[ \underline{\dot{x}}(t) + \frac{1}{\tau}\underline{x}(t)= \frac{1}{\tau}\underline{u}(t)\]
+    \pause{}
+    En posant les constantes de temps \( \tau_1\) et \( \tau_2\):
+    \[
+    \left \{
+    \begin{array}{ccccc}
+        g k_{11} &=& g h_{11} &=& \frac{1}{\tau_1} \\
+        \frac{g}{V_e} k_{22} &=& \frac{g}{V_e} h_{22} &=& \frac{1}{\tau_2}
+    \end{array}
+    \right. \pause{}
+    \implies{}
+    \boxed{
+        \left \{
+        \begin{array}{ccccc}
+            k_{11} &=& h_{11} &=& \frac{1}{g \tau_1} \\
+            k_{22} &=& h_{22} &=& \frac{V_e}{g \tau_2}
+        \end{array}
+        \right.
+    }
+    \]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Boucle de commande} \pause{}
+    On rappelle:
+    \[
+    \left[
+    \begin{array}{c}
+        n_x \\
+        \delta n_z
+    \end{array}
+    \right]
+    =
+    -K
+    \left[
+    \begin{array}{c}
+        \delta V \\
+        \gamma
+    \end{array}
+    \right]
+    +H
+    \left[
+    \begin{array}{c}
+        \delta V_c \\
+        \gamma_c
+    \end{array}
+    \right]
+    \] \pause{}
+    Avec:
+    \[
+    K=
+    \left[
+    \begin{array}{cc}
+        \frac{1}{g\tau_1} & -1 \\
+        0 & \frac{V_e}{g\tau_1}
+    \end{array}
+    \right]
+    \qquad
+    \text{et}
+    \qquad
+    H=
+    \left[
+    \begin{array}{cc}
+        \frac{1}{g\tau_1} & 0 \\
+        0 & \frac{V_e}{g\tau_1}
+    \end{array}
+    \right]
+    \] \pause{}
+    On obtient les commandes:
+    \[
+    \boxed{
+    \left \{
+        \begin{array}{l}
+            n_x =  \frac{1}{g\tau_1} (V_c - V) + \gamma \\
+            n_z =  \frac{V_e}{g\tau_2} (\gamma_c - \gamma) + 1
+        \end{array}
+        \right.
+    }
+    \]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Choix de \( \tau_1 \) et \( \tau_2\)} \pause{}
+    Le réglage de \( \tau_1 \) et \( \tau_2\) determinent la commande
+    du système.\pause{}
+    \begin{center}
+        \( \implies \) Penser au confort des passagers
+    \end{center}
+    \pause{}
+    \[
+    \boxed{
+    \begin{array}{ll}
+        \tau_1 =  ? & \tau_2 = ?
+    \end{array}
+    }
+    \]
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Simulation \( \tau_1 = ? \) et \( \tau_2 = ? \)} \pause{}
+    \begin{center}
+        à completer
+    \end{center}
+\end{frame}
+
+\section{Synthèse des modes longitudinaux}
+
+\subsection{Dynamique du vol}
+
+\begin{frame}
+    \frametitle{Retour aux bases} \pause{}
+    Équations de la dynamique du vols:
+    \[
+    \left \{
+    \begin{array}{l}
+        m \dot{V} = mg n_x - mg \sin \gamma \\
+        m V \dot{\gamma} = mg n_z \cos \phi - mg \cos \gamma
+    \end{array}
+    \right.
+    \]\pause{}
+    Soit les commandes:
+    \[
+    \left \{
+    \begin{array}{l}
+        n_x = \frac{\dot{V}}{g} + \sin \gamma \\
+        n_z = (\frac{V \dot{\gamma}}{g} + \cos \gamma) \frac{1}{\cos \phi}
+    \end{array}
+    \right.
+    \]\pause{}
+    \begin{center}
+        Pour prendre en compte les variations de \( \gamma \) et \( \phi \), il
+        faut des lois de commandes non linéaires.
+    \end{center}
+\end{frame}
 
 \end{document}
