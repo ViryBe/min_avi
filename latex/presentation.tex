@@ -675,7 +675,8 @@
     \left \{
     \begin{array}{l}
         n_x = \frac{\dot{V}}{g} + \sin \gamma \\
-        n_z = (\frac{V \dot{\gamma}}{g} + \cos \gamma) \frac{1}{\cos \phi}
+        n_z = \left(\frac{V \dot{\gamma}}{g} + \cos \gamma\right)
+        \frac{1}{\cos \phi}
     \end{array}
     \right.
     \]\pause{}
@@ -683,6 +684,17 @@
         Pour prendre en compte les variations de \( \gamma \) et \( \phi \), il
         faut des lois de commandes non linéaires.
     \end{center}
+\end{frame}
+
+\begin{frame}{D\'etermination de $\dot{V}$}
+    $n_x$ n\'ecessite $\dot{V}$, on utilise
+    \begin{gather*}
+        V = V_i + \frac{\text{FL}}{2} \implies \dot{V} = \dot{V}_i + k\dot{z}\\
+        \intertext{avec $\dot{z} = V\sin\gamma$}
+        \dot{V} = \frac{V_{ic} - V_i}{\tau} + kV\sin\gamma\\
+        \intertext{o\`u}
+        k = \frac{\text{kts2ms}}{2\cdot \text{FL2M}}
+    \end{gather*}
 \end{frame}
 
 \end{document}
