@@ -693,7 +693,41 @@
         \intertext{avec $\dot{z} = V\sin\gamma$}
         \dot{V} = \frac{V_{ic} - V_i}{\tau} + kV\sin\gamma\\
         \intertext{o\`u}
-        k = \frac{\text{kts2ms}}{2\cdot \text{FL2M}}
+        k = \frac{\text{kts2ms}}{2\cdot \text{fl2m}}
+    \end{gather*}
+\end{frame}
+
+\section{Synth\`eses des modes lat\'eraux}
+\begin{frame}{Modes lat\'eraux}
+    \[
+        \left\lbrace
+        \begin{aligned}
+            \dot{\psi} &= \frac{g}{V_e}\phi\\
+            \dot{\phi} &= p
+        \end{aligned}
+        \right.
+    \]
+    En notant $x = (\psi\; \phi)^\top$, et ayant $\underline{u} =
+    K\underline{x} + H \psi_c$, on a
+    \begin{gather*}
+        \left\lbrace
+        \begin{aligned}
+            \dot{x} &= Ax + Bu\\
+            y &= Cx
+        \end{aligned}
+        \right.\\
+        A = \begin{bmatrix}
+            0    & g/V_e\\
+            -k_1 & -k_2
+        \end{bmatrix}
+        \quad
+        B = \begin{bmatrix}
+            0 \\ H
+        \end{bmatrix}
+        \quad
+        C = \begin{bmatrix}
+            1 & 0
+        \end{bmatrix}
     \end{gather*}
 \end{frame}
 
