@@ -7,3 +7,5 @@
 *.snm
 *.toc
 *.swp
+*.fls
+*.fdb_latexmk
