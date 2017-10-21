@@ -699,6 +699,7 @@
 
 \section{Synth\`eses des modes lat\'eraux}
 \begin{frame}{Modes lat\'eraux}
+    D'apr\`es le mod\`ele,
     \[
         \left\lbrace
         \begin{aligned}
@@ -707,8 +708,8 @@
         \end{aligned}
         \right.
     \]
-    En notant $x = (\psi\; \phi)^\top$, et ayant $\underline{u} =
-    K\underline{x} + H \psi_c$, on a
+    En notant $x = (\psi\; \phi)^\top$, et ayant $p =
+    -K\underline{x} + H \psi_c \in \mathbf{R}$, on a
     \begin{gather*}
         \left\lbrace
         \begin{aligned}
@@ -729,6 +730,8 @@
             1 & 0
         \end{bmatrix}
     \end{gather*}
+    o\`u $u = \psi_c$, $K = [ k_1 \; k_2 ]$ et $H \in \mathbf{M}_{1\times
+    1}(\mathbb{R})$.
 \end{frame}
 
 \begin{frame}{Fonction de transfert}
@@ -739,6 +742,10 @@
             g/V_E \\ p
         \end{bmatrix}
     \]
+    d'o\`u (?)
+    \begin{equation*}
+        \frac{\psi}{\psi_c} = H \frac{g/V_e}{s^2 + k_2 s + \frac{g}{V_e}k_1}
+    \end{equation*}
 \end{frame}
 
 \end{document}
