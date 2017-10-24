@@ -58,7 +58,7 @@
   \end{frame}
 }
 \section{Modèle avion}
-\subsection{Rappels}
+% \subsection{Rappels}
 \begin{frame}
     \frametitle{Rappel équations de la dynamique} \pause{}
     \'Equations de la dynamique:
@@ -82,7 +82,7 @@
     \end{center}
 \end{frame}
 
-\subsection{Facteur de charge}
+% \subsection{Facteur de charge}
 \begin{frame}
     \frametitle{\(n_z = \frac{L}{mg}\) pour un virage}\pause{}
     En palier: \(\gamma = 0\) et \(\dot{\gamma} = 0\) \pause{}
@@ -110,7 +110,7 @@
     \[ \boxed{R = \frac{V^2}{g\tan \phi}}\]
 \end{frame}
 
-% \subsection{$n_z$ ressource}
+% % \subsection{$n_z$ ressource}
 
 \begin{frame}
     \frametitle{\(n_z = \frac{L}{mg}\) pour une ressource}\pause{}
@@ -121,7 +121,7 @@
     D'où:\[ \boxed{n_z = \frac{V\dot{\gamma}}{g} + \cos \gamma}\]
 \end{frame}
 
-\subsection{Représentation d'état}
+% \subsection{Représentation d'état}
 
 \begin{frame}
     \frametitle{Representation d'états non-linéaire}\pause{}
@@ -167,7 +167,7 @@
     \]
 \end{frame}
 
-\subsection{Linéarisation}
+% \subsection{Linéarisation}
 \begin{frame}
     \frametitle{Point d'équilibre}\pause{}
     Trouvons un point d'équilibre
@@ -325,7 +325,7 @@
     \]
 \end{frame}
 
-\subsection{Exemples}
+% \subsection{Exemples}
 
 \begin{frame}
     \frametitle{Valeurs dans l'aviation civile}\pause{}
@@ -351,7 +351,7 @@
 
 \section{Synthèse des modes de bases}
 
-\subsection{1er découplage}
+% \subsection{1er découplage}
 
 \begin{frame}
     \frametitle{Modèle linéaire} \pause{}
@@ -451,7 +451,7 @@
     \]
 \end{frame}
 
-\subsection{Bouclage du système}
+% \subsection{Bouclage du système}
 
 \begin{frame}
     \frametitle{Bouclage} \pause{}
@@ -514,7 +514,7 @@
     \]
 \end{frame}
 
-\subsection{2ème découplage}
+% \subsection{2ème découplage}
 
 \begin{frame}
     \frametitle{Découplage} \pause{}
@@ -657,7 +657,7 @@
 
 \section{Synthèse des modes longitudinaux}
 
-\subsection{Dynamique du vol}
+% \subsection{Dynamique du vol}
 
 \begin{frame}
     \frametitle{Retour aux bases} \pause{}
@@ -686,15 +686,37 @@
     \end{center}
 \end{frame}
 
-\begin{frame}{D\'etermination de $\dot{V}$}
-    $n_x$ n\'ecessite $\dot{V}$, on utilise
+\begin{frame}{D\'etermination de \(\dot{V}\)} \pause{}
+    \(n_x\) n\'ecessite \(\dot{V}\), on utilise
     \begin{gather*}
         V = V_i + \frac{\text{FL}}{2} \implies \dot{V} = \dot{V}_i + k\dot{z}\\
-        \intertext{avec $\dot{z} = V\sin\gamma$}
-        \dot{V} = \frac{V_{ic} - V_i}{\tau} + kV\sin\gamma\\
-        \intertext{o\`u}
-        k = \frac{\text{kts2ms}}{2\cdot \text{fl2m}}
+        \intertext{avec \(\dot{z} = V\sin\gamma \)}
+        \dot{V} = \frac{V_{ic} - V_i}{\tau} + kV\sin\gamma
     \end{gather*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Détermination de \( k \)} \pause{}
+    On sait que:
+    \(
+    V = V_i + \frac{FL}{2}
+    \), avec \( V \),\( V_i \) en \( kt \) et \( FL \) en niveau de vol.
+
+    Passage en \( m.s^{-1} \):
+    \[
+    \begin{array}{rcl}
+        kts2ms * V &=& kts2ms * V_i + \frac{kts2ms}{2} * FL\\
+        &=& kts2ms * V_i + \frac{kts2ms}{2} * m2fl * z
+    \end{array}
+    \] \pause{}
+    D'où \( k \):
+    \[
+    \boxed{
+        k = \frac{kts2ms}{2*fl2m}
+    }
+    \]
+    (\( kts2ms = \) et \( fl2m = \))
+
 \end{frame}
 
 \section{Synth\`eses des modes lat\'eraux}
@@ -703,48 +725,95 @@
     \[
         \left\lbrace
         \begin{aligned}
-            \dot{\psi} &= \frac{g}{V_e}\phi\\
+            \delta \dot{\psi} &= \frac{g}{V_e}\phi \\
             \dot{\phi} &= p
         \end{aligned}
         \right.
-    \]
-    En notant $x = (\psi\; \phi)^\top$, et ayant $p =
-    -K\underline{x} + H \psi_c \in \mathbf{R}$, on a
-    \begin{gather*}
-        \left\lbrace
-        \begin{aligned}
-            \dot{x} &= Ax + Bu\\
-            y &= Cx
-        \end{aligned}
-        \right.\\
-        A = \begin{bmatrix}
-            0    & g/V_e\\
-            -k_1 & -k_2
-        \end{bmatrix}
-        \quad
-        B = \begin{bmatrix}
-            0 \\ H
-        \end{bmatrix}
-        \quad
-        C = \begin{bmatrix}
-            1 & 0
-        \end{bmatrix}
-    \end{gather*}
-    o\`u $u = \psi_c$, $K = [ k_1 \; k_2 ]$ et $H \in \mathbf{M}_{1\times
-    1}(\mathbb{R})$.
+    \] \pause{}
+    En notant \(x = {[\psi \; \phi]}^\top \), et \( u = p \) on a:
+    \[
+    \delta \underline{\dot{x}} = A \delta \underline{x} + B u
+    \] \pause{}
+    Avec:
+    \[
+    A = \begin{bmatrix}
+           0 & g/V_e\\
+           0 & 0
+       \end{bmatrix}
+       \quad
+       B = \begin{bmatrix}
+           0 \\ h
+       \end{bmatrix}
+   \]
 \end{frame}
 
-\begin{frame}{Fonction de transfert}
+\begin{frame}
+    \frametitle{En boucle fermée} \pause{}
+    On a:
     \[
-        C(sI - A)^{-1} =
-        \frac{H}{s^2 + k_2 s + \frac{g}{V_E}k_1}
-        \begin{bmatrix}
-            g/V_E \\ p
+    u = -K \underline{x} + h \psi_c \qquad (\in \mathbb{R})
+    \] \pause{}
+    Avec:
+    \[
+    K = \begin{bmatrix}
+           k1 & k2
+       \end{bmatrix}
+   \] \pause{}
+   D'où
+   \[
+       \begin{aligned}
+           \dot{\underline{x}} &= A\underline{x} + Bu
+       \end{aligned}
+    \] \pause{}
+    Avec:
+    \[
+       A = \begin{bmatrix}
+           0 & g/V_e\\
+           -k_1 & -k_2
+       \end{bmatrix}
+       \quad
+       B = \begin{bmatrix}
+           0 \\ h
+       \end{bmatrix}
+   \]
+\end{frame}
+    % et ayant \(u =
+    % -K\underline{x} + H \psi_c \in \mathbf{R}\), on a
+    % \begin{gather*}
+    %     \left\lbrace
+    %     \begin{aligned}
+    %         \dot{x} &= Ax + Bu\\
+    %         y &= Cx
+    %     \end{aligned}
+    %     \right.\\
+    %     A = \begin{bmatrix}
+    %         0    & g/V_e\\
+    %         -k_1 & -k_2
+    %     \end{bmatrix}
+    %     \quad
+    %     B = \begin{bmatrix}
+    %         0 \\ H
+    %     \end{bmatrix}
+    %     \quad
+    %     C = \begin{bmatrix}
+    %         1 & 0
+    %     \end{bmatrix}
+    % \end{gather*}
+    % o\`u \(u = \psi_c\), \(K = [ k_1 \; k_2 ]\) et \(H \in \mathbf{M}_{1\times
+    % 1}(\mathbb{R})\).
+
+\begin{frame}{Fonction de transfert \( \frac{\psi}{\psi_c} \)}
+    Pour la capture de \( \psi \):
+    \[
+    F(p) = \frac{\psi}{\psi_c}(p) = C{(pI - A)}^{-1}B \qquad C=\begin{bmatrix}
+            1 & 0
         \end{bmatrix}
-    \]
-    d'o\`u (?)
+    \] \pause{}
+    Après calcul:
     \begin{equation*}
-        \frac{\psi}{\psi_c} = H \frac{g/V_e}{s^2 + k_2 s + \frac{g}{V_e}k_1}
+        \boxed{
+            \frac{\psi}{\psi_c}(p) = h * \frac{g/V_e}{p^2 + k_2 p + \frac{g}{V_e}k_1}
+        }
     \end{equation*}
 \end{frame}
 
