@@ -464,6 +464,7 @@
     \[
     \underline{u}(t) = -K \underline{x}(t) + H \underline{r}(t)
     \]
+    Avec: \( (K, H) \in \mathcal{M}_{2 \times 2}(\mathbb{R})^2 \)
 
 \end{frame}
 
@@ -471,8 +472,8 @@
     \frametitle{Gain de retour -- Pré-commande} \pause{}
     Avec le bouclage:
     \[
-    \underline{u}(t) = -\underbrace{K}_{2 \times 2} \underline{x}(t) +
-        \underbrace{H}_{2 \times 2} \underline{r}(t)
+    \underline{u}(t) = -K \underline{x}(t) +
+        H \underline{r}(t)
     \] \pause{}
     En posant:
     \[
@@ -498,7 +499,7 @@
     =
     \left[
     \begin{array}{cc}
-        -g k_{11} & -g (1+K_{12}) \\
+        -g k_{11} & -g (1+k_{12}) \\
         -\frac{g}{V_e} k_{21} & -\frac{g}{V_e} k_{22}
     \end{array}
     \right]
@@ -686,13 +687,17 @@
     \end{center}
 \end{frame}
 
-\begin{frame}{D\'etermination de \(\dot{V}\)} \pause{}
-    \(n_x\) n\'ecessite \(\dot{V}\), on utilise
-    \begin{gather*}
-        V = V_i + \frac{\text{FL}}{2} \implies \dot{V} = \dot{V}_i + k\dot{z}\\
-        \intertext{avec \(\dot{z} = V\sin\gamma \)}
-        \dot{V} = \frac{V_{ic} - V_i}{\tau} + kV\sin\gamma
-    \end{gather*}
+\begin{frame}{Capture de la vitesse \( V_i \)} \pause{}
+    \(n_x = \frac{\dot{V}}{g} + \sin \gamma \) \pause{} n\'ecessite \(\dot{V}\),
+    on utilise
+    \[
+    V = V_i + \frac{\text{FL}}{2} \implies \dot{V} = \dot{V}_i + k\dot{z}
+    \]
+    \pause{}
+    avec \( \dot{z} = V\sin \gamma \)
+    \[
+    \dot{V} = \frac{V_{ic} - V_i}{\tau} + kV\sin \gamma
+    \]
 \end{frame}
 
 \begin{frame}
@@ -705,21 +710,49 @@
     Passage en \( m.s^{-1} \):
     \[
     \begin{array}{rcl}
-        kts2ms * V &=& kts2ms * V_i + \frac{kts2ms}{2} * FL\\
-        &=& kts2ms * V_i + \frac{kts2ms}{2} * m2fl * z
+        KTS2MS . V &=& KTS2MS . V_i + \frac{KTS2MS}{2} . FL\\
+        &=& KTS2MS . V_i + \frac{KTS2MS}{2} . M2FL * z
     \end{array}
     \] \pause{}
     D'où \( k \):
     \[
     \boxed{
-        k = \frac{kts2ms}{2*fl2m}
+        k = \frac{KTS2MS}{2*FL2M}
     }
     \]
-    (\( kts2ms = \) et \( fl2m = \))
+    (\( KTS2MS = \) et \( FL2M = \))
 
 \end{frame}
 
+\begin{frame}
+    \frametitle{Capture du Mach \( M \)} \pause{}
+    En utilisant l'approximation \( V = 600 M \) avec \( V \) en \( kt \):
+    \[
+    \boxed{
+        V = 600 . kt2ms . M
+    }
+    \]
+    Avec \( V \) en \( m.s^{-1} \)
+\end{frame}
+
+\begin{frame}
+    \frametitle{Capture de la vitesse verticale et d'altitude } \pause{}
+    On sait que:
+    \[
+    V_{zc} = V \sin \gamma_{c}
+    \] \pause{}
+    D'où la catpure de vitesse verticale:
+    \[
+    \gamma _c = \arcsin \frac{V_{zc}}{V}
+    \] \pause{}
+    De plus pour la capture d'altitude:
+    \[
+    V_{zc} \approx \dot{z}  \approx \frac{z_c - z}{\tau_z}
+    \]
+\end{frame}
+
 \section{Synth\`eses des modes lat\'eraux}
+
 \begin{frame}{Modes lat\'eraux}
     D'apr\`es le mod\`ele,
     \[
@@ -777,32 +810,9 @@
        \end{bmatrix}
    \]
 \end{frame}
-    % et ayant \(u =
-    % -K\underline{x} + H \psi_c \in \mathbf{R}\), on a
-    % \begin{gather*}
-    %     \left\lbrace
-    %     \begin{aligned}
-    %         \dot{x} &= Ax + Bu\\
-    %         y &= Cx
-    %     \end{aligned}
-    %     \right.\\
-    %     A = \begin{bmatrix}
-    %         0    & g/V_e\\
-    %         -k_1 & -k_2
-    %     \end{bmatrix}
-    %     \quad
-    %     B = \begin{bmatrix}
-    %         0 \\ H
-    %     \end{bmatrix}
-    %     \quad
-    %     C = \begin{bmatrix}
-    %         1 & 0
-    %     \end{bmatrix}
-    % \end{gather*}
-    % o\`u \(u = \psi_c\), \(K = [ k_1 \; k_2 ]\) et \(H \in \mathbf{M}_{1\times
-    % 1}(\mathbb{R})\).
 
-\begin{frame}{Fonction de transfert \( \frac{\psi}{\psi_c} \)}
+
+\begin{frame}{Capture du cap \( \psi \)}
     Pour la capture de \( \psi \):
     \[
     F(p) = \frac{\psi}{\psi_c}(p) = C{(pI - A)}^{-1}B \qquad C=\begin{bmatrix}
@@ -812,9 +822,34 @@
     Après calcul:
     \begin{equation*}
         \boxed{
-            \frac{\psi}{\psi_c}(p) = h * \frac{g/V_e}{p^2 + k_2 p + \frac{g}{V_e}k_1}
+            \frac{\psi}{\psi_c}(p) = h . \frac{g/V_e}{p^2 + k_2 p + \frac{g}{V_e}k_1}
         }
     \end{equation*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Capture du cap \( \psi \)} \pause{}
+    On retrouve un système du 2nd ordre de fonction de transfert:
+    \[
+    F(p) = \frac{G}{p^2 + 2 \xi \omega p + \omega ^2}
+    \] \pause{}
+    On règle le système avec la pulsation \( \omega \), l'amortissement \( \xi \)
+    et le gain \( G \).
+    On en déduit les valeurs de \( k1 \), \( k2 \) et \( h \).
+
+    D'où:
+    \[
+    \boxed{
+    \left \{
+        \begin{array}{l}
+            k1 = ? \\
+            k2 = ?
+        \end{array}
+        \right. \qquad
+        \text{et} \qquad
+        h =?
+    }
+    \]
 \end{frame}
 
 \end{document}
