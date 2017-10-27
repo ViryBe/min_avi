@@ -1,4 +1,4 @@
-\documentclass[footheight=2em]{beamer}
+\documentclass[tikz, footheight=2em]{beamer}
 \usetheme[hideothersubsections]{Hannover}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -9,6 +9,11 @@
 \usepackage{ulem}
 \usepackage{gensymb}
 \usepackage[]{tikz}
+\usetikzlibrary{quotes,angles}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
 
 \usecolortheme{dolphin}
 
@@ -46,6 +51,7 @@
 }
 % ----------------------------------------------------------
 
+
 \begin{document}
 
 \frame{\titlepage}
@@ -57,11 +63,26 @@
     \tableofcontents[currentsection]
   \end{frame}
 }
-\section{Modèle avion}
+\section{Introduction et modèle avion}
+
+\begin{frame}
+    \frametitle{Objectifs} \pause{}
+    \begin{center}
+        Étude de la dynamique d'un avion pour l'implemenation d'un pilote
+        automatique.
+    \end{center} \pause{}
+    Motivation:
+    \begin{center}
+        le pilote souhaite commander son avion avec des instructions de haut
+        niveau, ie suivre une route, un axe avec la présence de vent, commander
+        une altitude ou une vitesse.
+    \end{center}
+\end{frame}
+
 % \subsection{Rappels}
 \begin{frame}
     \frametitle{Rappel équations de la dynamique} \pause{}
-    \'Equations de la dynamique:
+    En assimilant l'avion à un point on a:
     \[
     \left \{
     \begin{array}{l}
@@ -71,14 +92,16 @@
         \dot{\phi} = p
     \end{array}
     \right.
-    \]
+    \] \pause{}
 
     Facteurs de charges longitudinal et vertical:
-
+    \[
+    n_x = \frac{T - D}{mg} \qquad n_z = \frac{L}{mg}
+    \] \pause{}
     \begin{center}
-        \begin{tabular}{cc}
-            \(n_x = \frac{T - D}{mg}\) & \(n_z = \frac{L}{mg}\)
-        \end{tabular}
+        \fbox{
+        On commande l'avion à l'aide de \( nx \), \( nz \) et \( p \)
+        }
     \end{center}
 \end{frame}
 
@@ -122,6 +145,8 @@
 \end{frame}
 
 % \subsection{Représentation d'état}
+\section{Linéarisation du modèle}
+
 
 \begin{frame}
     \frametitle{Representation d'états non-linéaire}\pause{}
@@ -849,6 +874,145 @@
         \text{et} \qquad
         h =?
     }
+    \]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Capture de route} \pause{}
+    \begin{figure}
+
+    \begin{center}
+        \begin{tikzpicture}[
+        scale=5,
+        axis/.style={thick, ->, >=stealth'},
+        important line/.style={thick},
+        dashed line/.style={dashed, thin},
+        pile/.style={thick, ->, >=stealth', shorten <=2pt, shorten
+        >=2pt},
+        every node/.style={color=black}
+        ]
+        % axis
+        \draw[axis] (-0.1,0)  -- (1, 0) node(xline)[right]{$y$};
+        \draw[axis] (0, -0.1) -- (0, 1) node(yline)[above] {$x$};
+
+        \coordinate (A) at (0.25, 0.15);
+        \coordinate (N) at (0.25, 0.85);
+        \coordinate (B) at (0.85, 0.65);
+        \coordinate (C) at (0.525, 0.685)
+        pic["$\psi$", draw=orange, <-, angle eccentricity=1.2, angle radius=2cm, important line]
+        {angle=B--A--N}
+        pic["$\chi$", draw=green, <-, angle eccentricity=1.2, angle radius=1.5cm, important line]
+        {angle=C--A--N};
+
+        \draw [densely dotted, thick, ->] (C)--(A)--(N);
+        \draw [densely dotted, thick, ->] (B)--(A)--(N);
+
+        \draw (A) node[below] {$avion$};
+        \draw (B) node[below] {$\vec{V}$};
+        \draw (C) node[above left] {$\vec{V_g}$};
+        \draw (N) node[above left] {Nord};
+        \draw[important line, ->, draw=red] (B) --  (C)
+            node[above right = -0.1 cm and 0.6 cm, text width=5em] {$\vec{W}$};
+
+    \end{tikzpicture}
+    \caption{Prise en compte du vent \( \vec{W} \)}\label{fig:M1}
+    \end{center}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Capture de cap} \pause{}
+    D'après la figure précedente, en notant
+    \[ \underline{W} = {[W_x \quad W_y]}^T \quad \text{et}\quad \psi_w +
+    \pi \quad \text{la direction du vent}\] \pause{}
+    \[
+    \underline{V}_g
+    =
+    \left[
+    \begin{array}{c}
+        V \cos (\gamma) \cos (\psi) + W \cos (\psi_w + \pi) \\
+        V \cos (\gamma) \sin (\psi) + W \sin (\psi_w + \pi)
+    \end{array}
+    \right]
+    =
+    \left[
+    \begin{array}{c}
+        V_{g} \cos (\chi) \\
+        V_{g} \sin (\chi)
+    \end{array}
+    \right]
+    \] \pause{}
+    D'où:
+    \[
+    \tan \chi = \frac
+    {V \cos (\gamma) \sin (\psi) + W \sin (\psi_w + \pi)}
+    {V \cos (\gamma) \cos (\psi) + W \cos (\psi_w + \pi)}
+    \]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Capture de cap} \pause{}
+    en inversant l'équation précédente:
+    \[
+    \boxed{
+    \psi_c=
+    \chi_c + \arcsin
+    \left(
+    \frac
+    {W_x \sin \chi_c - W_y \cos \chi_c}
+    {V \cos \gamma}
+    \right)
+    }
+    \]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Capture d'axe} \pause{}
+    \begin{center}
+        SCHEMA
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Capture d'axe} \pause{}
+    Avec les notations précédentes :
+    \[
+    \left[
+    \begin{array}{c}
+        e_x \\
+        e_y
+    \end{array}
+    \right]
+    =
+    \left[
+    \begin{array}{cc}
+        \cos \chi_a & \sin \chi_a \\
+        - \sin \chi_a & \cos \chi_a
+    \end{array}
+    \right]
+    \left[
+    \begin{array}{c}
+        x - x_a \\
+        y - y_a
+    \end{array}
+    \right]
+    \]
+    En dérivant l'équart \( e_y \):
+    \(
+    \dot{e_y} = - \sin \chi_a \dot{x} + \cos \chi_a \dot{y}
+    \)
+    Avec:
+    \[
+    \left \{
+    \begin{array}{l}
+        \dot{x} = V_g \cos \chi = V \cos (\gamma) \cos (\psi) + W_x \\
+        \dot{y} = V_g \sin \chi = V \cos (\gamma) \sin (\psi) + W_y
+    \end{array}
+    \right.
+    \]
+    On obtient:
+    \[
+    \dot{e_y} = V_g \sin (\chi_c - \chi_a)
     \]
 \end{frame}
 
