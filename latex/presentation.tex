@@ -969,7 +969,31 @@
 \begin{frame}
     \frametitle{Capture d'axe} \pause{}
     \begin{center}
-        SCHEMA
+		\begin{tikzpicture}[scale=4.]
+			% Axes
+			\draw[->, thick] (0, 0) -- (1, 0) node [right] {$y$};
+			\draw[->, thick] (0, 0) -- (0, 1) node [above] {$x$};
+
+			% Points
+			\coordinate (acft) at (.6, .3);
+			\coordinate (btck) at (.1, .5);
+			\coordinate (etck) at (0.35, .75);
+			\coordinate (acftproj) at ($(btck)!(acft)!(etck)$);
+			% Aircraft location
+			\fill[red] (acft) circle (.5pt);
+			\draw[dashed,red] (.6, 0.3) -- (.6, 0) node [below, red] {$y$};
+			\draw[dashed,red] (.6, 0.3) -- (0, 0.3) node [left, red] {$x$};
+
+			% Track
+			\draw[->, green] (btck) -- (etck);
+			\draw[dashed] (0.1, 0.8) -- (0.1, 0) node [below] {$y_a$};
+			\draw[dashed] (0.1, 0.5) -- (0, 0.5) node [left] {$x_a$};
+			\draw[->] (0.1, 0.7) arc (90:45:0.2) node [midway,above] {$\chi_a$};
+
+			% Linking aircraft to track
+			\draw[<->,blue] (acft) -- (acftproj) node[midway,right]{$e_y$};
+			\draw[blue] (btck) -- (acftproj) node[midway,right]{$e_x$};
+		\end{tikzpicture}
     \end{center}
 \end{frame}
 
