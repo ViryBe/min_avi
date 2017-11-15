@@ -88,7 +88,7 @@
     \begin{array}{l}
         m\dot{V} = T - D - mg\sin \gamma \\
         mV\dot{\gamma} = L\cos \phi - mg \cos \gamma \\
-        mV \cos \gamma \dot{\psi} = L \sin \phi \\
+        mV \cos (\gamma) \dot{\psi} = L \sin \phi \\
         \dot{\phi} = p
     \end{array}
     \right.
@@ -356,7 +356,7 @@
     \frametitle{Valeurs dans l'aviation civile}\pause{}
     Facteur de charge logitudinal:
     \[
-    ? \le n_x \le ?
+    -2g \le n_x \le 2g
     \]\pause{}
     Facteur de charge vertical:
     \[
@@ -364,11 +364,14 @@
     \]\pause{}
     Inclinaison de l'avion (Airbus):
     \[
-    -66\degree \le \phi \le 66\degree
+    -66\degree \le \phi \le 66\degree (\text{pilotage manuel})
+    \]
+    \[
+    -30\degree \le \phi \le 30\degree (\text{pilotage automatique})
     \] \pause{}
     Vitesse de roulis (Airbus):
     \[
-    \max 15\degree
+    p_{\max} = 15\degree /s
     \]
 \end{frame}
 
@@ -412,7 +415,7 @@
     \right]
     \delta{} \underline{u}
     \] \pause{}
-    Système découplagé \( \delta V, \gamma \) et \( \psi, \phi \)
+    Système découplé \( \delta V, \gamma \) et \( \psi, \phi \)
 \end{frame}
 
 \begin{frame}
@@ -715,27 +718,21 @@
 \begin{frame}{Capture de la vitesse \( V_i \)} \pause{}
     \(n_x = \frac{\dot{V}}{g} + \sin \gamma \) \pause{} n\'ecessite \(\dot{V}\),
     on utilise
+    % \[
+    % V = V_i + \frac{\text{FL}}{2} \implies \dot{V} = \dot{V}_i + k\dot{z}
+    % \]
+    % \pause{}
+    % avec \( \dot{z} = V\sin \gamma \)
+    % \[
+    % \dot{V} = \frac{V_{ic} - V_i}{\tau_V} + kV\sin \gamma
+    % \]
+    % \[
+    % \tau_V =
+    % \]
     \[
-    V = V_i + \frac{\text{FL}}{2} \implies \dot{V} = \dot{V}_i + k\dot{z}
+    V = V_i + \frac{\text{FL}}{2} \implies \boxed{V = V_i + k z}
     \]
-    \pause{}
-    avec \( \dot{z} = V\sin \gamma \)
-    \[
-    \dot{V} = \frac{V_{ic} - V_i}{\tau_V} + kV\sin \gamma
-    \]
-    \[
-    \tau_V =
-    \]
-\end{frame}
-
-\begin{frame}
-    \frametitle{Détermination de \( k \)} \pause{}
-    On sait que:
-    \(
-    V = V_i + \frac{FL}{2}
-    \), avec \( V \),\( V_i \) en \( kt \) et \( FL \) en niveau de vol.
-
-    Passage en \( m.s^{-1} \):
+    Avec:
     \[
     \begin{array}{rcl}
         KTS2MS . V &=& KTS2MS . V_i + \frac{KTS2MS}{2} . FL\\
@@ -745,12 +742,24 @@
     D'où \( k \):
     \[
     \boxed{
-        k = \frac{KTS2MS}{2*FL2M}
+    k = \frac{KTS2MS}{2\cdot FL2M}
     }
     \]
-    (\( KTS2MS = \) et \( FL2M = \))
+    (\( KTS2MS = 0.51\) et \( FL2M = 30.48\))
 
 \end{frame}
+
+% \begin{frame}
+%     \frametitle{Détermination de \( k \)} \pause{}
+%     On sait que:
+%     \(
+%     V = V_i + \frac{FL}{2}
+%     \), avec \( V \),\( V_i \) en \( kt \) et \( FL \) en niveau de vol.
+%
+%     Passage en \( m.s^{-1} \):
+%     \[
+%
+% \end{frame}
 
 \begin{frame}
     \frametitle{Capture du Mach \( M \)} \pause{}
@@ -771,11 +780,11 @@
     \] \pause{}
     D'où la catpure de vitesse verticale:
     \[
-    \gamma _c = \arcsin \frac{V_{zc}}{V}
+    \boxed{\gamma _c = \arcsin \frac{V_{zc}}{V}}
     \] \pause{}
     De plus pour la capture d'altitude:
     \[
-    V_{zc} \approx \dot{z}  \approx \frac{z_c - z}{\tau_z}
+    \boxed{V_{zc} \approx \dot{z}  \approx \frac{z_c - z}{\tau_z}}
     \]
 \end{frame}
 
@@ -1074,7 +1083,20 @@
 \section{Conclusion}
 
 \begin{frame}
-    \frametitle{Titre} \pause{}
+    \frametitle{Conclusion} \pause{}
+
+    \begin{center}
+        À partir des équations simplifiées de la dynamique du point, et
+        de commandes élémentaires (\( n_x \), \( n_z \) et \( p \)) on
+        a réussi à mettre en place un système de commandes proche de
+        la navigation d'un aéronef.
+    \end{center}
+\begin{center}
+    Par la suite nous pourrions envisager de prendre en compte
+    les performances de l'avion pour avoir une simulation plus
+    en accord avec la réalité.
+
+\end{center}
 
 \end{frame}
 
