@@ -412,7 +412,7 @@
     \right]
     \delta{} \underline{u}
     \] \pause{}
-    \( \implies \) découplage des équations \( \delta V, \gamma \) et \( \psi, \phi \)
+    Système découplagé \( \delta V, \gamma \) et \( \psi, \phi \)
 \end{frame}
 
 \begin{frame}
@@ -489,7 +489,7 @@
     \[
     \underline{u}(t) = -K \underline{x}(t) + H \underline{r}(t)
     \]
-    Avec: \( (K, H) \in \mathcal{M}_{2 \times 2}(\mathbb{R})^2 \)
+    Avec: \( (K, H) \in \mathcal{M}_{2 \times 2}{(\mathbb{R})}^2 \)
 
 \end{frame}
 
@@ -565,7 +565,7 @@
     \[
     \left \{
     \begin{array}{l}
-        \delta \dot{V} = -g k_{11} \delta V + g \delta h_{11} V_c \\
+        \delta \dot{V} = -g k_{11} \delta V + g h_{11} \delta V_c \\
         \dot{\gamma} = -\frac{g}{V_e} k_{22} \gamma + \frac{g}{V_e} h_{22} \gamma_c
     \end{array}
     \right.
@@ -667,7 +667,7 @@
     \[
     \boxed{
     \begin{array}{ll}
-        \tau_1 =  ? & \tau_2 = ?
+        \tau_1 =  3s & \tau_2 = 5s
     \end{array}
     }
     \]
@@ -721,7 +721,10 @@
     \pause{}
     avec \( \dot{z} = V\sin \gamma \)
     \[
-    \dot{V} = \frac{V_{ic} - V_i}{\tau} + kV\sin \gamma
+    \dot{V} = \frac{V_{ic} - V_i}{\tau_V} + kV\sin \gamma
+    \]
+    \[
+    \tau_V =
     \]
 \end{frame}
 
@@ -1026,7 +1029,7 @@
     \end{array}
     \right]
     \]
-    En dérivant l'équart \( e_y \):
+    En dérivant l'écart \( e_y \):
     \(
     \dot{e_y} = - \sin \chi_a \dot{x} + \cos \chi_a \dot{y}
     \)
@@ -1034,8 +1037,8 @@
     \[
     \left \{
     \begin{array}{l}
-        \dot{x} = V_g \cos \chi = V \cos (\gamma) \cos (\psi) + W_x \\
-        \dot{y} = V_g \sin \chi = V \cos (\gamma) \sin (\psi) + W_y
+        \dot{x} = V_g \cos \chi \\
+        \dot{y} = V_g \sin \chi
     \end{array}
     \right.
     \]
@@ -1044,5 +1047,36 @@
     \dot{e_y} = V_g \sin (\chi_c - \chi_a)
     \]
 \end{frame}
+
+\begin{frame}
+    \frametitle{Capture d'axe} \pause{}
+    En considérant un retour du 1er ordre: (\( \dot{e_y} = -\frac{e_y}{\tau} \)):
+    \pause{}
+    \[
+    \boxed{
+        \chi_c = \chi_a - \arcsin (\frac{e_y}{\tau V_g})
+    }
+    \] \pause{}
+
+    \[
+    \left(
+        \text{Pour l'implémentation:}
+        \left \{
+        \begin{array}{l}
+            \dot{x} = V \cos (\gamma) \cos (\psi) + W_x \\
+            \dot{y} = V \cos (\gamma) \sin (\psi) + W_y \\
+        \end{array}
+        \right.
+    \right)
+    \]
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}
+    \frametitle{Titre} \pause{}
+
+\end{frame}
+
 
 \end{document}
