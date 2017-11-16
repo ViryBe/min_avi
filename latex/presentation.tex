@@ -420,7 +420,7 @@
 
 \begin{frame}
     \frametitle{2 systèmes d'ordres 2} \pause{}
-    On obtient 2 systèmes du 2ème ordre:
+    On obtient 2 systèmes de dimension 2:
     \[
     (1)
     \left \{
@@ -709,22 +709,11 @@
 \end{frame}
 
 \begin{frame}{Capture de la vitesse \( V_i \)} \pause{}
-    \(n_x = \frac{\dot{V}}{g} + \sin \gamma \) \pause{} n\'ecessite \(\dot{V}\),
-    on utilise
-    % \[
-    % V = V_i + \frac{\text{FL}}{2} \implies \dot{V} = \dot{V}_i + k\dot{z}
-    % \]
-    % \pause{}
-    % avec \( \dot{z} = V\sin \gamma \)
-    % \[
-    % \dot{V} = \frac{V_{ic} - V_i}{\tau_V} + kV\sin \gamma
-    % \]
-    % \[
-    % \tau_V =
-    % \]
+	On utilise l'approximation suivante
     \[
     V = V_i + \frac{\text{FL}}{2} \implies \boxed{V = V_i + k z}
     \]
+	\pause{}
     Avec:
     \[
     \begin{array}{rcl}
@@ -759,7 +748,7 @@
     En utilisant l'approximation \( V = 600 M \) avec \( V \) en \( kt \):
     \[
     \boxed{
-        V = 600 . kt2ms . M
+        V = 600 \cdot KTS2MS \cdot M
     }
     \]
     Avec \( V \) en \( m.s^{-1} \)
@@ -1059,6 +1048,7 @@
     \(
     \dot{e_y} = - \sin \chi_a \dot{x} + \cos \chi_a \dot{y}
     \)
+	\\
     Avec:
     \[
     \left \{
