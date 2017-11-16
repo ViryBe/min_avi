@@ -660,28 +660,21 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Choix de \( \tau_1 \) et \( \tau_2\)} \pause{}
-    Le réglage de \( \tau_1 \) et \( \tau_2\) determinent la commande
-    du système.\pause{}
-    \begin{center}
-        \( \implies \) Penser au confort des passagers
-    \end{center}
-    \pause{}
-    \[
-    \boxed{
-    \begin{array}{ll}
-        \tau_1 =  3s & \tau_2 = 5s
-    \end{array}
-    }
-    \]
-
+	\frametitle{Capture de la vitesse}
+	\begin{figure}
+		\center
+		\includegraphics[width=\linewidth]{pics/capture_Vitesse.png}
+		\caption{Vitesse (kts) en fonction du temps (s)}
+	\end{figure}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Simulation \( \tau_1 = ? \) et \( \tau_2 = ? \)} \pause{}
-    \begin{center}
-        à completer
-    \end{center}
+	\frametitle{Capture de pente}
+	\begin{figure}
+		\center
+		\includegraphics[width=\linewidth]{pics/capture_pente.png}
+		\caption{Pente (\(\gamma\) en deg) en fonction du temps (s)}
+	\end{figure}
 \end{frame}
 
 \section{Synthèse des modes longitudinaux}
@@ -772,14 +765,6 @@
     Avec \( V \) en \( m.s^{-1} \)
 \end{frame}
 
-\begin{frame}
-	\frametitle{Capture de la vitesse}
-	\begin{figure}
-		\center
-		\includegraphics[width=\linewidth]{pics/capture_Vitesse.png}
-		\caption{Vitesse (m\(\cdot\)s\(^{-1}\)) en fonction du temps (s)}
-	\end{figure}
-\end{frame}
 
 
 \begin{frame}
@@ -799,11 +784,11 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Capture de la vitesse verticale}
+	\frametitle{\'Evolution de la vitesse r\'eelle}
 	\begin{figure}
 		\center
 		\includegraphics[height=6cm]{pics/control_Vitesse_montee.png}
-		\caption{Vitesse (m\(\cdot\)s\(^{-1}\)) en fonction du temps (s)}
+		\caption{Vitesse r\'eelle (\(V\) en kts) en fonction du temps (s)}
 	\end{figure}
 \end{frame}
 
@@ -901,20 +886,6 @@
     On règle le système avec la pulsation \( \omega \), l'amortissement \( \xi \)
     et le gain \( G \).
     On en déduit les valeurs de \( k1 \), \( k2 \) et \( h \).
-
-    D'où:
-    \[
-    \boxed{
-    \left \{
-        \begin{array}{l}
-            k1 = ? \\
-            k2 = ?
-        \end{array}
-        \right. \qquad
-        \text{et} \qquad
-        h =?
-    }
-    \]
 \end{frame}
 
 \begin{frame}
@@ -923,6 +894,15 @@
 		\center
 		\includegraphics[width=\linewidth]{pics/capture_axe_cap.png}
 		\caption{Cap en degr\'es en fonction du temps (s)}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Inclinaison \(\phi\)}
+	\begin{figure}
+		\center
+		\includegraphics[width=\linewidth]{pics/capture_axe_inclinaison.png}
+		\caption{Inclinaison en degr\'es en fonction du temps (s)}
 	\end{figure}
 \end{frame}
 
