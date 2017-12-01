@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#    Processes joystick input, manages priorities between joystick input
-#    and autopilot commands
+#    Transforms raw input data to aircraft commands
 #    Copyright (C) 2017  Gabriel Hondet, Benoit Viry, Damien Thoral, Nicolas
 #    Soulard
 #
