@@ -16,3 +16,14 @@ roll rate \(p\).
 Auto pilot will be inhibated by joystick commands. The switching from autopilot
 to joystick is ensured by the module which will deactivate the FCU and send a
 switch signal.
+
+## Implementation
+
+### Reading input
+Input from the keyboard or the joystick will be outputted as raw data.
+
+### Processing input
+The signal retrieved will be processed to obtain a \(n_z\) and a \(p\)
+
+### Priority management
+Decides whether to shut down FCU.
