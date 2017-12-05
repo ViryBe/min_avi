@@ -17,3 +17,25 @@
 
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+import pygame
+
+# Inits
+pygame.display.init()
+pygame.joystick.init()
+
+js = pygame.joystick.Joystick(0)
+js.init()
+
+print("Set button to exit program...")
+stopevt = pygame.event.wait()
+evt = None
+output = 0 + 0j
+haxisn = 0
+vaxisn = 1
+while evt != stopevt:
+    evt = pygame.event.wait()
+    output = js.get_axis(haxisn) + 1j * js.get_axis(vaxisn)
+    print(output)
+pygame.joystick.quit()
+pygame.display.quit()
