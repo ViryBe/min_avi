@@ -20,22 +20,46 @@
 
 import pygame
 
-# Inits
-pygame.display.init()
-pygame.joystick.init()
+def init_js(jsid=0):
+    """Inits pygame env
 
-js = pygame.joystick.Joystick(0)
-js.init()
+    :param jsid int: number of the joystick to use
+    :returns: a ready to use joystick object
+    """
+    pygame.display.init()
+    pygame.joystick.init()
+    js = pygame.joystick.Joystick(jsid)
+    js.init()
+    return js
 
-print("Set button to exit program...")
-stopevt = pygame.event.wait()
-evt = None
-output = 0 + 0j
-haxisn = 0
-vaxisn = 1
-while evt != stopevt:
-    evt = pygame.event.wait()
-    output = js.get_axis(haxisn) + 1j * js.get_axis(vaxisn)
-    print(output)
-pygame.joystick.quit()
-pygame.display.quit()
+
+def exit_pygame():
+    """Properly quits pygame"""
+    pygame.joystick.quit()
+    pygame.display.quit()
+
+
+def query_jstate(js):
+    """Queries the state of the joystick
+
+    :param js: joystick to query
+    :type js: :class:`py.pygame.joystick.Joystick
+    """
+    haxisn = 0
+    vaxisn = 1
+    return js.get_axis(haxisn) + 1j * js.get_axis(vaxisn)
+
+
+if __name__ == "__main__":
+    js = init_js()
+    print("Set button to exit program...")
+    stopevt = pygame.event.wait()
+    evt = None
+    output = 0 + 0j
+    haxisn = 0
+    vaxisn = 1
+    while evt != stopevt:
+        evt = pygame.event.wait()
+        output = query_jstate(js)
+        print(output)
+    exit_pygame()
