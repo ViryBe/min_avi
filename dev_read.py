@@ -19,6 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import pygame
+import math
 
 def init_js(jsid=0):
     """Inits pygame env
