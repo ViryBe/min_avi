@@ -22,6 +22,11 @@ import math
 import pygame
 
 DEG2RAD = math.pi / 180
+"""Constant to convert degrees to radiants"""
+VAXIS = 1
+"""pygame identifier of the vertical axis used"""
+HAXIS = 0
+"""pygame identifier of the horizontal axis"""
 
 def init_js(jsid=0):
     """Inits pygame env
@@ -42,29 +47,40 @@ def exit_pygame():
     pygame.display.quit()
 
 
-def query_jstate(js):
-    """Queries the state of the joystick
+def saturate(insig, sbound, lbound):
+    """Apply safety saturation on input signal"""
+    if insig >= sbound:
+        return sbound
+    elif insig <= lbound:
+        return lbound
+    else: return insig
 
-    :param js: joystick to query
-    :type js: :class:`py.pygame.joystick.Joystick
+def nz_mapping(vaxisjs):
+    """Maps output of joystick to n_z
+
+    :param float vaxisjs:output of the joystick, \in [-1, 1]
     """
-    haxisn = 0
-    vaxisn = 1
-    return js.get_axis(haxisn) + 1j * js.get_axis(vaxisn)
+    nz = 2.5 * vaxisjs
+    return saturate(nz, sbound=2.5, lbound=-1)
 
 
-def mapping(x_stick, y_stick, nz_sat_inf=-1):
-    """
-    x_stick \in [-1, 1] -> [-15, 15] °/sec
-    y_stick \in [-1, 1] -> [2,5, -1]
-    """
-    nz = 2.5 * y_stick
-    p = DEG2RAD * 1.5 * x_stick
-    return (nz if nz >= nz_sat_inf else nz_sat_inf, p)
+def p_mapping(haxisjs):
+    """Maps output of joystick to a roll rate"""
+    p = DEG2RAD * 1.5 * haxisjs
+    return saturate(p, 30, -30)
 
+
+def nz_from_stick(js):
+    """Returns the nz matching joystick manipulation"""
+    return nz_mapping(js.get_axis(VAXIS))
+
+
+def p_from_stick(js):
+    """Returns the p matching joystick manipulation"""
+    return p_mapping(js.get_axis(HAXIS))
 
 if __name__ == "__main__":
-    js = init_js()
+    mjs = init_js()
     print("Set button to exit program...")
     stopevt = pygame.event.wait()
     evt = None
@@ -73,6 +89,4 @@ if __name__ == "__main__":
     vaxisn = 1
     while evt != stopevt:
         evt = pygame.event.wait()
-        output = query_jstate(js)
-        print(output)
     exit_pygame()
