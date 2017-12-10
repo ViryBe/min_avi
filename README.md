@@ -6,16 +6,24 @@ San Francisco airport.
 
 ## Joystick role
 * Input reading (keyboard or joystick)
-* Priorities between joystick and autopilot
+* Deactivate autopilot
 
 ### Input reading
 If the joystick is active, commands must be output as load factor \(n_z\) and
 roll rate \(p\).
 
-### Priority management
-Auto pilot will be inhibated by joystick commands. The switching from autopilot
-to joystick is ensured by the module which will deactivate the FCU and send a
-switch signal.
+### Operating modes
+In normal mode, the auto pilot is activated and the module only forwards
+inputs from the FCU, changing slightly the message to match specifications. The
+pilot has the possibility to switch off the autopilot. In manual mode, inputs
+from the FCU are ignored (except for the \(n_x\)) and the data read from the
+joystick are sent.
+
+### Switching from autopilot to manual
+When the pilot pushed the button, the system waits for the first input from the
+joystick (i.e. the first move) to send effectively data from the joystick. As
+long as the joystick isn't used, even if manual mode is enabled, messages are
+forwarded from the FCU.
 
 ## Implementation
 
