@@ -18,8 +18,10 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import pygame
 import math
+import pygame
+
+DEG2RAD = math.pi / 180
 
 def init_js(jsid=0):
     """Inits pygame env
@@ -49,6 +51,16 @@ def query_jstate(js):
     haxisn = 0
     vaxisn = 1
     return js.get_axis(haxisn) + 1j * js.get_axis(vaxisn)
+
+
+def mapping(x_stick, y_stick, nz_sat_inf=-1):
+    """
+    x_stick \in [-1, 1] -> [-15, 15] °/sec
+    y_stick \in [-1, 1] -> [2,5, -1]
+    """
+    nz = 2.5 * y_stick
+    p = DEG2RAD * 1.5 * x_stick
+    return (nz if nz >= nz_sat_inf else nz_sat_inf, p)
 
 
 if __name__ == "__main__":
