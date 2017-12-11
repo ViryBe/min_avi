@@ -22,8 +22,6 @@
 import ivy.std_api as isa
 import dev_read as dr
 
-_ap = True
-"""Whether the autopilot is activated"""
 _js = None
 """Joystick object to be used"""
 
@@ -32,7 +30,7 @@ def nz_forward(agent, nzstr):
     """Intercept nz messages"""
     substr = "APNzControl nz="
     lbd, upb = -1, 2.5
-    if _ap:
+    if dr.ap_engaged():
         data = dr.saturate(float(nzstr), lbd, upb)
         isa.IvySendMsg(substr + str(data))
     else:
@@ -44,7 +42,7 @@ def p_forward(agent, pstr):
     """Intercept nz messages"""
     substr = "APLatControl rollRate="
     lbd, upb = -15, 15
-    if _ap:
+    if dr.ap_engaged():
         data = dr.saturate(float(pstr), lbd, upb)
         isa.IvySendMsg(substr + str(data))
     else:

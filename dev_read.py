@@ -27,6 +27,10 @@ VAXIS = 1
 """pygame identifier of the vertical axis used"""
 HAXIS = 0
 """pygame identifier of the horizontal axis"""
+APBUT = 0
+"""pygame identifier of the autopilot button"""
+_ap = True
+"""Flag indicated whether autopilot is activated"""
 
 def init_js(jsid=0):
     """Inits pygame env
@@ -61,13 +65,13 @@ def nz_mapping(vaxisjs):
     :param float vaxisjs:output of the joystick, \in [-1, 1]
     """
     nz = 2.5 * vaxisjs
-    return saturate(nz, sbound=2.5, lbound=-1)
+    return nz
 
 
 def p_mapping(haxisjs):
     """Maps output of joystick to a roll rate"""
     p = DEG2RAD * 1.5 * haxisjs
-    return saturate(p, 30, -30)
+    return p
 
 
 def nz_from_stick(js):
@@ -78,6 +82,14 @@ def nz_from_stick(js):
 def p_from_stick(js):
     """Returns the p matching joystick manipulation"""
     return p_mapping(js.get_axis(HAXIS))
+
+
+def ap_engaged():
+    """Checks whether autopilot has been disengaged"""
+    global _ap
+    _ap = _ap and not len(pygame.event.get(pygame.JOYBUTTONDOWN)) > 0
+    return _ap
+
 
 if __name__ == "__main__":
     mjs = init_js()
