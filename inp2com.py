@@ -28,45 +28,28 @@ _js = None
 """Joystick object to be used"""
 
 
-def send(data):
-    """Sends data on ivy bus"""
-    # TODO: complete it
-    substr = ("nxss" if data["type"] == "nx" else
-              "nzss" if data["type"] == "nz" else
-              "pss")
-    isa.IvySendMsg(substr + data["value"])
-
-
-def nz_forward(ivydata):
-    """Intercepts nz messages"""
-    on_reception({"type": "nz", "value": ivydata})
-
-
-def p_forward(ivydata):
-    """Intercepts roll rate messages"""
-    on_reception({"type": "p", "value": ivydata})
-
-
-def nx_forward(ivydata):
-    """Intercept nx messages"""
-    on_reception({"type": "nx", "value": ivydata})
-
-
-def on_reception(data):
-    """Called on reception of a nz or p
-    
-    :param dict data: dictionnary containing a type field and a value field
-    """
+def nz_forward(agent, nzstr):
+    """Intercept nz messages"""
+    substr = "APNzControl nz="
+    lbd, upb = -1, 2.5
     if _ap:
-        send(dr.saturate(data))
+        data = dr.saturate(float(nzstr), lbd, upb)
+        isa.IvySendMsg(substr + str(data))
     else:
-        if data["type"] == "nz":
-            send(dr.nz_from_stick(_js))
-        elif data["type"] == "p":
-            send(dr.p_from_stick(_js))
-        else:
-            send(data)
-    return 0
+        data = dr.saturate(dr.nz_from_stick(_js), lbd, upb)
+        isa.IvySendMsg(substr + str(data))
+
+
+def p_forward(agent, pstr):
+    """Intercept nz messages"""
+    substr = "APLatControl rollRate="
+    lbd, upb = -15, 15
+    if _ap:
+        data = dr.saturate(float(pstr), lbd, upb)
+        isa.IvySendMsg(substr + str(data))
+    else:
+        data = dr.saturate(dr.nz_from_stick(_js), lbd, upb)
+        isa.IvySendMsg(substr + str(data))
 
 
 def on_cx_proc():
@@ -87,7 +70,6 @@ def init_ivy():
     isa.IvyInit(app_name, "[{} ready]".format(app_name), 0, on_cx_proc,
                 on_die_proc)
     isa.IvyStart(ivy_bus)
-    isa.IvyBindMsg(nx_forward, r"^APNxControl nx=(\S+)")
-    isa.IvyBindMsg(nz_forward, r"^APNzControl nz=(\S+)")
-    isa.IvyBindMsg(p_forward, r"^APLatControl rollrate=(\S+)")
+    isa.IvyBindMsg(nz_forward, r"^APNzCommand nz=(\S+)")
+    isa.IvyBindMsg(p_forward, r"^APLatCommand p=(\S+)")
     isa.IvyMainLoop()
