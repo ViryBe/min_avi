@@ -22,6 +22,7 @@
 import math
 import ivy.std_api as isa
 import dev_read as dr
+import time
 
 DEG2RAD = math.pi / 180.
 _js = None
@@ -36,6 +37,7 @@ def nz_forward(agent, nzstr):
     lbd, upb = -1, 2.5
     if update_ap():
         data = dr.saturate(float(nzstr), lbd, upb)
+        print(substr + str(data))
         isa.IvySendMsg(substr + str(data))
     else:
         data = dr.saturate(dr.nz_from_stick(_js), lbd, upb)
@@ -64,30 +66,31 @@ def update_ap():
     return _ap
 
 
-def on_cx_proc():
+def on_cx_proc(*argv):
     """Launched on connection of the ivy bus"""
     global _js
     js = dr.init_js()
     _js = js
 
 
-def on_die_proc():
+def on_die_proc(*argv):
     """Launched on closing of ivy"""
     dr.exit_pygame()
 
-def reset_ap():
+def reset_ap(agent, toto):
     """Sets ap to True"""
     global _ap
     _ap = True
 
 def init_ivy():
     """Inits ivy environment"""
-    app_name = "Joystick manager"
+    app_name = "Mini_manche"
     ivy_bus = "127.255.255.255:2010"
     isa.IvyInit(app_name, "[{} ready]".format(app_name), 0, on_cx_proc,
                 on_die_proc)
     isa.IvyStart(ivy_bus)
-    isa.IvyBindMsg(nz_forward, r"^APNzCommand nz=(\S+)")
-    isa.IvyBindMsg(p_forward, r"^APLatCommand p=(\S+)")
-    isa.IvyBindMsg(lambda _, _: reset_ap(), "FCUAP1 on")
+    time.sleep(1)
+    isa.IvyBindMsg(nz_forward, "^APNzCommand nz=(.*)")
+    isa.IvyBindMsg(p_forward, "^APLatCommand p=(.*)")
+    isa.IvyBindMsg(reset_ap, "FCUAP1 on")
     isa.IvyMainLoop()

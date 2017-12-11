@@ -49,7 +49,7 @@ def exit_pygame():
     pygame.display.quit()
 
 
-def saturate(insig, sbound, lbound):
+def saturate(insig, lbound, sbound):
     """Apply safety saturation on input signal"""
     if insig >= sbound:
         return sbound
