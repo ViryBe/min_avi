@@ -19,9 +19,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import math
 import ivy.std_api as isa
 import dev_read as dr
 
+DEG2RAD = math.pi / 180.
 _js = None
 """Joystick object to be used"""
 _ap = True
@@ -43,7 +45,7 @@ def nz_forward(agent, nzstr):
 def p_forward(agent, pstr):
     """Intercept nz messages"""
     substr = "APLatControl rollRate="
-    lbd, upb = -15, 15
+    lbd, upb = -DEG2RAD * 15, DEG2RAD * 15
     if update_ap():
         data = dr.saturate(float(pstr), lbd, upb)
         isa.IvySendMsg(substr + str(data))
