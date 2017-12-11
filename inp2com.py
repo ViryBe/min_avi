@@ -24,13 +24,15 @@ import dev_read as dr
 
 _js = None
 """Joystick object to be used"""
+_ap = True
+"""Autopilot engaged"""
 
 
 def nz_forward(agent, nzstr):
     """Intercept nz messages"""
     substr = "APNzControl nz="
     lbd, upb = -1, 2.5
-    if dr.ap_engaged():
+    if update_ap():
         data = dr.saturate(float(nzstr), lbd, upb)
         isa.IvySendMsg(substr + str(data))
     else:
@@ -42,12 +44,22 @@ def p_forward(agent, pstr):
     """Intercept nz messages"""
     substr = "APLatControl rollRate="
     lbd, upb = -15, 15
-    if dr.ap_engaged():
+    if update_ap():
         data = dr.saturate(float(pstr), lbd, upb)
         isa.IvySendMsg(substr + str(data))
     else:
         data = dr.saturate(dr.nz_from_stick(_js), lbd, upb)
         isa.IvySendMsg(substr + str(data))
+
+
+def update_ap():
+    """Updates _ap flag and returns it"""
+    global _ap
+    preap = _ap
+    _ap = _ap and not dr.get_button_pushed()
+    if preap is not _ap:
+        isa.IvySendMsg("FCUAP1 off")
+    return _ap
 
 
 def on_cx_proc():
@@ -61,6 +73,11 @@ def on_die_proc():
     """Launched on closing of ivy"""
     dr.exit_pygame()
 
+def reset_ap():
+    """Sets ap to True"""
+    global _ap
+    _ap = True
+
 def init_ivy():
     """Inits ivy environment"""
     app_name = "Joystick manager"
@@ -70,4 +87,5 @@ def init_ivy():
     isa.IvyStart(ivy_bus)
     isa.IvyBindMsg(nz_forward, r"^APNzCommand nz=(\S+)")
     isa.IvyBindMsg(p_forward, r"^APLatCommand p=(\S+)")
+    isa.IvyBindMsg(lambda _, _: reset_ap(), "FCUAP1 on")
     isa.IvyMainLoop()

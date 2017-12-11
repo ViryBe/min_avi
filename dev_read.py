@@ -29,8 +29,6 @@ HAXIS = 0
 """pygame identifier of the horizontal axis"""
 APBUT = 0
 """pygame identifier of the autopilot button"""
-_ap = True
-"""Flag indicated whether autopilot is activated"""
 
 def init_js(jsid=0):
     """Inits pygame env
@@ -84,11 +82,9 @@ def p_from_stick(js):
     return p_mapping(js.get_axis(HAXIS))
 
 
-def ap_engaged():
-    """Checks whether autopilot has been disengaged"""
-    global _ap
-    _ap = _ap and not len(pygame.event.get(pygame.JOYBUTTONDOWN)) > 0
-    return _ap
+def get_button_pushed():
+    """Returns whether a button has been pushed since last call"""
+    return len(pygame.event.get(pygame.JOYBUTTONDOWN)) > 0
 
 
 if __name__ == "__main__":
@@ -101,4 +97,4 @@ if __name__ == "__main__":
     vaxisn = 1
     while evt != stopevt:
         evt = pygame.event.wait()
-    exit_pygame()
+        exit_pygame()
