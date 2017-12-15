@@ -23,13 +23,15 @@ import math
 import ivy.std_api as isa
 import dev_read as dr
 import time
+from pydub import AudioSegment
+from pydub.playback import play
 
 DEG2RAD = math.pi / 180.
 _js = None
 """Joystick object to be used"""
 _ap = True
 """Autopilot engaged"""
-
+_sound = AudioSegment.from_wav("Autopilot.wav")
 
 def nz_forward(agent, nzstr):
     """Intercept nz messages"""
@@ -63,8 +65,16 @@ def update_ap():
     _ap = _ap and not dr.get_button_pushed()
     if preap is not _ap:
         isa.IvySendMsg("FCUAP1 off")
+        play(_sound)
     return _ap
 
+def switch_fcu(agent):
+    global _ap
+    _ap = not _ap
+    msg = "FCUAP1 " + ("on" if _ap else "off")
+    isa.IvySendMsg(msg)
+    if not _ap:
+        play(_sound)
 
 def on_cx_proc(*argv):
     """Launched on connection of the ivy bus"""
@@ -93,4 +103,5 @@ def init_ivy():
     isa.IvyBindMsg(nz_forward, "^APNzCommand nz=(.*)")
     isa.IvyBindMsg(p_forward, "^APLatCommand p=(.*)")
     isa.IvyBindMsg(reset_ap, "FCUAP1 on")
+    isa.IvyBindMsg(switch_fcu, "FCUAP1 push")
     isa.IvyMainLoop()

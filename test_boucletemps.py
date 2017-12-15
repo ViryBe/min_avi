@@ -18,25 +18,25 @@ def on_msg(agent, data):
 
 def cmp_float(x, y):
     epsilon = 1e-5
-    return abs(x-y < epsilon)
+    return abs(x-y) < epsilon
 
 def reception_nz(agent, nz_received):
     global nz_sent
     if nz_sent >= -1 and nz_sent <= 2.5:
-        return (nz_sent, nz_received, cmp_float(nz_sent, nz_received))
+        print (nz_sent, float(nz_received), cmp_float(nz_sent, float(nz_received)))
     elif nz_sent < -1:
-        return (nz_sent, nz_received, cmp_float(-1, nz_received))
+        print (nz_sent, float(nz_received), cmp_float(-1, float(nz_received)))
     else:
-        return (nz_sent, nz_received, cmp_float(2.5, nz_received))
+        print (nz_sent, float(nz_received), cmp_float(2.5, float(nz_received)))
 
 def reception_p(agent, p_received):
     global p_sent
     if p_sent >= -15*DEG2RAD and p_sent <= 15*DEG2RAD:
-        return (p_sent, p_received, cmp_float(p_sent, p_received))
+        print (p_sent, float(p_received), cmp_float(p_sent, float(p_received)))
     elif p_sent < -15*DEG2RAD:
-        return (p_sent, p_received, cmp_float(-15*DEG2RAD, p_received))
+        print (p_sent, float(p_received), cmp_float(-15*DEG2RAD, float(p_received)))
     else:
-        return (p_sent, p_received, cmp_float(15*DEG2RAD, p_received))
+        print (p_sent,float(p_received), cmp_float(15*DEG2RAD,float(p_received)))
 
 app_name = "MyIvyApplication"
 ivy_bus="127.255.255.255:2010"

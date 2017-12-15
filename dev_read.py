@@ -57,19 +57,26 @@ def saturate(insig, lbound, sbound):
         return lbound
     else: return insig
 
-def nz_mapping(vaxisjs):
+def nz_mapping(vaxisjs, lthrper=0.1):
     """Maps output of joystick to n_z
 
     :param float vaxisjs:output of the joystick, \in [-1, 1]
     """
-    nz = 2.5 * vaxisjs
-    return nz
+    maxv = 2.5
+    nz = maxv * vaxisjs
+    return (nz if nz >= lthrper * maxv else lthrper * maxv)
 
 
-def p_mapping(haxisjs):
-    """Maps output of joystick to a roll rate"""
-    p = DEG2RAD * 1.5 * haxisjs
-    return p
+def p_mapping(haxisjs, lthrper=0.1):
+    """Maps output of joystick to a roll rate
+
+    :param haxisjs: output from the joystick in [0,1]
+    :param lthrper: threshold of deadzone, in percentage of the max value
+                    (which is defined internally...)
+    """
+    maxv = 1.5 * DEG2RAD
+    p = maxv * haxisjs
+    return (p if p >= lthrper*maxv else lthrper*maxv)
 
 
 def nz_from_stick(js):
