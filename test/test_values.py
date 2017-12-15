@@ -1,3 +1,5 @@
+"""Tests saturation and forward with autopilot engaged, generating 10 random
+values"""
 from sys import argv, exit
 import math
 import random as rd
