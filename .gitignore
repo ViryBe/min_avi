@@ -14,3 +14,7 @@ latex/pics
 *.pyc
 
 tags
+
+*.wav
+
+acftsim/
