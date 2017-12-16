@@ -1,9 +1,6 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#    Handles prioriy between order from device and autopilot
-#    Copyright (C) 2017  Gabriel Hondet, Benoit Viry, Damien Thoral, Nicolas
-#    Soulard
+#    Copyright (C) 2017  Gabriel Hondet
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,3 +14,11 @@
 
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""Common functionalities for tests"""
+import sys
+import math
+
+# Include sidestick sources
+sys.path.insert(0, "..")
+
+DEG2RAD = math.pi / 180.
