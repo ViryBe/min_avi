@@ -17,6 +17,7 @@
 
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""Reads data from joystick to give scaled and verified nz and p"""
 
 import math
 import pygame
@@ -60,7 +61,7 @@ def saturate(insig, lbound, sbound):
 def nz_mapping(vaxisjs, lthrper=0.1):
     """Maps output of joystick to n_z
 
-    :param float vaxisjs:output of the joystick, \in [-1, 1]
+    :param float vaxisjs:output of the joystick, in [-1, 1]
     """
     maxv = 2.5
     nz = maxv * vaxisjs

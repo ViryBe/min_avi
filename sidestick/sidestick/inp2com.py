@@ -1,5 +1,3 @@
-"""Manages ivy bus and messages"""
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 #    Transforms raw input data to aircraft commands
@@ -18,6 +16,7 @@
 
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""Manages ivy bus and messages"""
 
 import math
 import ivy.std_api as isa
@@ -31,7 +30,7 @@ _js = None
 """Joystick object to be used"""
 _ap = True
 """Autopilot engaged"""
-_sound = AudioSegment.from_wav("Autopilot.wav")
+_sound = AudioSegment.from_wav("../data/Autopilot.wav")
 
 def nz_forward(agent, nzstr):
     """Intercept nz messages"""
