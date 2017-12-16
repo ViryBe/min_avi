@@ -64,7 +64,7 @@ def nz_mapping(vaxisjs, lthrper=0.1):
     """
     maxv = 2.5
     nz = maxv * vaxisjs
-    return (nz if nz >= lthrper * maxv else lthrper * maxv)
+    return nz
 
 
 def p_mapping(haxisjs, lthrper=0.1):
@@ -76,7 +76,7 @@ def p_mapping(haxisjs, lthrper=0.1):
     """
     maxv = 1.5 * DEG2RAD
     p = maxv * haxisjs
-    return (p if p >= lthrper*maxv else lthrper*maxv)
+    return p
 
 
 def nz_from_stick(js):

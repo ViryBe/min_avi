@@ -46,4 +46,3 @@ IvyBindMsg(on_msg, "^Time t=(.*)")
 IvyBindMsg(reception_nz, "^APNzControl nz=(.*)")
 IvyBindMsg(reception_p, "^APLatControl rollRate=(.*)")
 IvyMainLoop()
-
