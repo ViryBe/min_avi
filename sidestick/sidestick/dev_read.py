@@ -104,20 +104,27 @@ def extract_evt(evtype, axis, defval):
     return kmean, lval
 
 
-def nz_from_stick(js):
-    """Returns the nz matching joystick manipulation"""
+def nz_from_stick(js, lthresh=0.1):
+    """Returns the nz matching joystick manipulation
+
+    :param float lthresh: low threshold defining a deadzone around null point
+                          of the joystick
+    """
     vaxismean, linp = extract_evt(pygame.JOYAXISMOTION, VAXIS, LASTVAXISV)
     global LASTVAXISV
     LASTVAXISV = linp
-    return nz_mapping(vaxismean)
+    return nz_mapping(vaxismean) if abs(vaxismean) > lthresh else 0
 
 
-def p_from_stick(js):
-    """Returns the p matching joystick manipulation"""
+def p_from_stick(js, lthresh=0.1):
+    """Returns the p matching joystick manipulation
+    :param float lthresh: low threshold defining a deadzone around null point
+                          of the joystick
+    """
     haxismean, linp = extract_evt(pygame.JOYAXISMOTION, HAXIS, LASTHAXISV)
     global LASTHAXISV
     LASTHAXISV = linp
-    return p_mapping(haxismean)
+    return p_mapping(haxismean) if abs(haxismean) > lthresh else 0
 
 
 def get_button_pushed():
