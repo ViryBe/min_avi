@@ -30,6 +30,10 @@ HAXIS = 0
 """pygame identifier of the horizontal axis"""
 APBUT = 0
 """pygame identifier of the autopilot button"""
+LASTHAXISV = 0
+"""Last value of horizontal axis, in [-1, 1]"""
+LASTVAXISV = 0
+"""Last value of vertical axis, in [-1, 1]"""
 
 def init_js(jsid=0):
     """Inits pygame env
@@ -37,6 +41,7 @@ def init_js(jsid=0):
     :param jsid int: number of the joystick to use
     :returns: a ready to use joystick object
     """
+    pygame.init()
     pygame.display.init()
     pygame.joystick.init()
     js = pygame.joystick.Joystick(jsid)
@@ -48,6 +53,7 @@ def exit_pygame():
     """Properly quits pygame"""
     pygame.joystick.quit()
     pygame.display.quit()
+    pygame.quit()
 
 
 def saturate(insig, lbound, sbound):
@@ -80,29 +86,40 @@ def p_mapping(haxisjs, lthrper=0.1):
     return p
 
 
+def extract_evt(evtype, axis, defval):
+    """More precise event extractor from the queue
+
+    :param int evtype: an Event type object
+    :param int axis: the number of the axis
+    :returns: the mean of the values since the previous call and last value
+    """
+    axisinp = pygame.event.get(evtype)
+    # Not kept events, will be put back in the queue
+    notkept = [e for e in axisinp if e.axis != axis]
+    map(pygame.event.post, notkept)
+    kept = [e for e in axisinp if e.axis == axis]
+    kval = [e.value for e in kept]
+    kmean = sum(kval)/len(kval) if len(kval) > 0 else defval
+    lval = kval[-1] if len(kval) > 0 else defval
+    return kmean, lval
+
+
 def nz_from_stick(js):
     """Returns the nz matching joystick manipulation"""
-    return nz_mapping(js.get_axis(VAXIS))
+    vaxismean, linp = extract_evt(pygame.JOYAXISMOTION, VAXIS, LASTVAXISV)
+    global LASTVAXISV
+    LASTVAXISV = linp
+    return nz_mapping(vaxismean)
 
 
 def p_from_stick(js):
     """Returns the p matching joystick manipulation"""
-    return p_mapping(js.get_axis(HAXIS))
+    haxismean, linp = extract_evt(pygame.JOYAXISMOTION, HAXIS, LASTHAXISV)
+    global LASTHAXISV
+    LASTHAXISV = linp
+    return p_mapping(haxismean)
 
 
 def get_button_pushed():
     """Returns whether a button has been pushed since last call"""
     return len(pygame.event.get(pygame.JOYBUTTONDOWN)) > 0
-
-
-if __name__ == "__main__":
-    mjs = init_js()
-    print("Set button to exit program...")
-    stopevt = pygame.event.wait()
-    evt = None
-    output = 0 + 0j
-    haxisn = 0
-    vaxisn = 1
-    while evt != stopevt:
-        evt = pygame.event.wait()
-        exit_pygame()
