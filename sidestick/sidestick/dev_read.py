@@ -81,7 +81,7 @@ def p_mapping(haxisjs, lthrper=0.1):
     :param lthrper: threshold of deadzone, in percentage of the max value
                     (which is defined internally...)
     """
-    maxv = 1.5 * DEG2RAD
+    maxv = 15 * DEG2RAD
     p = maxv * haxisjs
     return p
 
