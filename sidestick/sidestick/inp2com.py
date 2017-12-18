@@ -31,6 +31,7 @@ _js = None
 _ap = True
 """Autopilot engaged"""
 _sound = AudioSegment.from_wav("../data/Autopilot.wav")
+"""Audio file to play when disabling auto pilot"""
 
 def nz_forward(agent, nzstr):
     """Intercept nz messages"""
@@ -86,10 +87,12 @@ def on_die_proc(*argv):
     """Launched on closing of ivy"""
     dr.exit_pygame()
 
+
 def reset_ap(agent, toto):
     """Sets ap to True"""
     global _ap
     _ap = True
+
 
 def init_ivy():
     """Inits ivy environment"""
