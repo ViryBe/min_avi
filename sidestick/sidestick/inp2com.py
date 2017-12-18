@@ -47,14 +47,16 @@ def nz_forward(agent, nzstr):
 
 
 def p_forward(agent, pstr):
-    """Intercept nz messages"""
+    """Intercept p messages"""
     substr = "APLatControl rollRate="
     lbd, upb = -DEG2RAD * 15, DEG2RAD * 15
     if update_ap():
         data = dr.saturate(float(pstr), lbd, upb)
+        print(substr + str(data))
         isa.IvySendMsg(substr + str(data))
     else:
-        data = dr.saturate(dr.nz_from_stick(_js), lbd, upb)
+        data = dr.saturate(dr.p_from_stick(_js), lbd, upb)
+        print(substr + str(data))
         isa.IvySendMsg(substr + str(data))
 
 
@@ -68,6 +70,7 @@ def update_ap():
         play(_sound)
     return _ap
 
+
 def switch_fcu(agent):
     global _ap
     _ap = not _ap
@@ -75,6 +78,7 @@ def switch_fcu(agent):
     isa.IvySendMsg(msg)
     if not _ap:
         play(_sound)
+
 
 def on_cx_proc(*argv):
     """Launched on connection of the ivy bus"""
