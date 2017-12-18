@@ -10,7 +10,7 @@ from pydub.playback import play
 DEG2RAD = math.pi / 180.
 _js = None
 """Joystick object to be used"""
-_ap = True
+_ap = False
 """Autopilot engaged"""
 _sound = AudioSegment.from_wav("../data/Autopilot.wav")
 """Audio file to play when disabling auto pilot"""
@@ -21,7 +21,6 @@ def nz_forward(agent, nzstr):
     lbd, upb = -1, 2.5
     if update_ap():
         data = dr.saturate(float(nzstr), lbd, upb)
-        print(substr + str(data))
         isa.IvySendMsg(substr + str(data))
     else:
         data = dr.saturate(dr.nz_from_stick(_js), lbd, upb)
@@ -31,14 +30,12 @@ def nz_forward(agent, nzstr):
 def p_forward(agent, pstr):
     """Intercept p messages"""
     substr = "APLatControl rollRate="
-    lbd, upb = -DEG2RAD * 15, DEG2RAD * 15
+    lbd, upb = -dr.LIM_P, dr.LIM_P
     if update_ap():
         data = dr.saturate(float(pstr), lbd, upb)
-        print(substr + str(data))
         isa.IvySendMsg(substr + str(data))
     else:
         data = dr.saturate(dr.p_from_stick(_js), lbd, upb)
-        print(substr + str(data))
         isa.IvySendMsg(substr + str(data))
 
 
@@ -87,7 +84,8 @@ def init_ivy():
     isa.IvyInit(app_name, "[{} ready]".format(app_name), 0, on_cx_proc,
                 on_die_proc)
     isa.IvyStart(ivy_bus)
-    time.sleep(1)
+    time.sleep(2)
+
     isa.IvyBindMsg(nz_forward, "^APNzCommand nz=(.*)")
     isa.IvyBindMsg(p_forward, "^APLatCommand p=(.*)")
     isa.IvyBindMsg(reset_ap, "FCUAP1 on")
