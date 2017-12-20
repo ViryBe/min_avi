@@ -4,8 +4,11 @@ import math
 import pygame
 
 DEG2RAD = math.pi / 180
-LIM_P = DEG2RAD * 15
 """Constant to convert degrees to radiants"""
+LIM_P = DEG2RAD * 15
+LIM_NZ_MIN = -1
+LIM_NZ_MAX = 2.5
+"""list of constants"""
 VAXIS = 1
 """pygame identifier of the vertical axis used"""
 HAXIS = 0
@@ -18,6 +21,7 @@ LASTVAXISV = 0
 """Last value of vertical axis, in [-1, 1]"""
 
 JOY_INP = {"p" : [], "nz" : []}
+"""dict with last values from the stick """
 
 def init_js(jsid=0):
     """Inits pygame env
@@ -48,13 +52,13 @@ def saturate(insig, lbound, sbound):
         return lbound
     else: return insig
 
-def nz_mapping(vaxisjs, lthrper=0.05):
+def nz_mapping(vaxisjs, lthrper=0.01):
     """Maps output of joystick to n_z
 
     :param float vaxisjs:output of the joystick, in [-1, 1]
     """
     maxv = 2.5
-    nz = maxv * vaxisjs
+    nz = maxv * vaxisjs + 1
     return nz
 
 
@@ -74,8 +78,7 @@ def extract_evt(evtype):
     """More precise event extractor from the queue
 
     :param int evtype: an Event type object
-    :param int axis: the number of the axis
-    :returns: the mean of the values since the previous call and last value
+    :returns: nada
     """
     axisinp = pygame.event.get(evtype)
     global JOY_INP
@@ -84,7 +87,7 @@ def extract_evt(evtype):
     JOY_INP["nz"] += [e.value for e in axisinp if e.axis == VAXIS]
 
 
-def nz_from_stick(js, lthresh=0.05):
+def nz_from_stick(js, lthresh=0.01):
     """Returns the nz matching joystick manipulation
 
     :param float lthresh: low threshold defining a deadzone around null point
@@ -92,10 +95,10 @@ def nz_from_stick(js, lthresh=0.05):
     """
     global LASTVAXISV
     extract_evt(pygame.JOYAXISMOTION)
-    val = sum(JOY_INP["nz"]) / len(JOY_INP["nz"]) if len(JOY_INP["nz"]) > 0 else LASTVAXISV
+    val = JOY_INP["nz"][-1] if len(JOY_INP["nz"]) > 0 else LASTVAXISV
     LASTVAXISV = val
     JOY_INP["nz"] = []
-    return nz_mapping(val) if abs(val) > lthresh else 0
+    return nz_mapping(val) if abs(val) > lthresh else 1
 
 
 def p_from_stick(js, lthresh=0.05):
@@ -105,7 +108,7 @@ def p_from_stick(js, lthresh=0.05):
     """
     global LASTHAXISV
     extract_evt(pygame.JOYAXISMOTION)
-    val = sum(JOY_INP["p"]) / len(JOY_INP["p"]) if len(JOY_INP["p"]) > 0 else LASTHAXISV
+    val = JOY_INP["p"][-1] if len(JOY_INP["p"]) > 0 else LASTHAXISV
     LASTHAXISV = val
     JOY_INP["p"] = []
     return p_mapping(val) if abs(val) > lthresh else 0

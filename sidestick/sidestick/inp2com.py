@@ -1,30 +1,32 @@
 """Manages ivy bus and messages"""
 
-import math
 import ivy.std_api as isa
 import dev_read as dr
+from dev_read import DEG2RAD, LIM_NZ_MIN, LIM_NZ_MAX
 import time
 from pydub import AudioSegment
 from pydub.playback import play
 
-DEG2RAD = math.pi / 180.
+
 _js = None
 """Joystick object to be used"""
 _ap = False
 """Autopilot engaged"""
 _sound = AudioSegment.from_wav("../data/Autopilot.wav")
 """Audio file to play when disabling auto pilot"""
+_phi = 0
+"""current phi position (for safety net)"""
 
 def nz_forward(agent, nzstr):
     """Intercept nz messages"""
     substr = "APNzControl nz="
     lbd, upb = -1, 2.5
-    if update_ap():
-        data = dr.saturate(float(nzstr), lbd, upb)
-        isa.IvySendMsg(substr + str(data))
-    else:
-        data = dr.saturate(dr.nz_from_stick(_js), lbd, upb)
-        isa.IvySendMsg(substr + str(data))
+
+    data = (dr.saturate(float(nzstr), lbd, upb)
+            if update_ap()
+            else dr.saturate(dr.nz_from_stick(_js), lbd, upb))
+
+    isa.IvySendMsg(substr + str(data))
 
 
 def p_forward(agent, pstr):
@@ -32,11 +34,16 @@ def p_forward(agent, pstr):
     substr = "APLatControl rollRate="
     lbd, upb = -dr.LIM_P, dr.LIM_P
     if update_ap():
-        data = dr.saturate(float(pstr), lbd, upb)
-        isa.IvySendMsg(substr + str(data))
+        # limitation 30° if in PA
+        data = (dr.saturate(float(pstr), lbd, upb)
+                if not (abs(_phi) > 30 * DEG2RAD)
+                else 0)
     else:
-        data = dr.saturate(dr.p_from_stick(_js), lbd, upb)
-        isa.IvySendMsg(substr + str(data))
+        # limitation 66° if in PA
+        data = (dr.saturate(dr.p_from_stick(_js), lbd, upb)
+                if not (abs(_phi) > 66 * DEG2RAD)
+                else 0)
+    isa.IvySendMsg(substr + str(data))
 
 
 def update_ap():
@@ -71,10 +78,15 @@ def on_die_proc(*argv):
     dr.exit_pygame()
 
 
-def reset_ap(agent, toto):
+def reset_ap(*argv):
     """Sets ap to True"""
     global _ap
     _ap = True
+
+
+def update_phi(agent, phi):
+    global _phi
+    _phi = float(phi)
 
 
 def init_ivy():
@@ -90,4 +102,5 @@ def init_ivy():
     isa.IvyBindMsg(p_forward, "^APLatCommand p=(.*)")
     isa.IvyBindMsg(reset_ap, "FCUAP1 on")
     isa.IvyBindMsg(switch_fcu, "FCUAP1 push")
+    isa.IvyBindMsg(update_phi, "StateVector x=.* y=.* Vp=.* fpa=.* psi=.* phi=(.*)")
     isa.IvyMainLoop()
