@@ -90,8 +90,10 @@ def nz_from_stick(js, lthresh=0.05):
     :param float lthresh: low threshold defining a deadzone around null point
                           of the joystick
     """
+    global LASTVAXISV
     extract_evt(pygame.JOYAXISMOTION)
     val = sum(JOY_INP["nz"]) / len(JOY_INP["nz"]) if len(JOY_INP["nz"]) > 0 else LASTVAXISV
+    LASTVAXISV = val
     JOY_INP["nz"] = []
     return nz_mapping(val) if abs(val) > lthresh else 0
 
@@ -101,8 +103,10 @@ def p_from_stick(js, lthresh=0.05):
     :param float lthresh: low threshold defining a deadzone around null point
                           of the joystick
     """
+    global LASTHAXISV
     extract_evt(pygame.JOYAXISMOTION)
     val = sum(JOY_INP["p"]) / len(JOY_INP["p"]) if len(JOY_INP["p"]) > 0 else LASTHAXISV
+    LASTHAXISV = val
     JOY_INP["p"] = []
     return p_mapping(val) if abs(val) > lthresh else 0
 
