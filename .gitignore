@@ -13,6 +13,8 @@ latex/pics
 
 *.pyc
 
+acftsim/
+
 tags
 
 sidestick/doc/
