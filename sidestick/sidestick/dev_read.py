@@ -17,6 +17,8 @@ LASTHAXISV = 0
 LASTVAXISV = 0
 """Last value of vertical axis, in [-1, 1]"""
 
+JOY_INP = {"p" : [], "nz" : []}
+
 def init_js(jsid=0):
     """Inits pygame env
 
@@ -68,7 +70,7 @@ def p_mapping(haxisjs, lthrper=0.05):
     return p
 
 
-def extract_evt(evtype, axis, defval):
+def extract_evt(evtype):
     """More precise event extractor from the queue
 
     :param int evtype: an Event type object
@@ -76,26 +78,22 @@ def extract_evt(evtype, axis, defval):
     :returns: the mean of the values since the previous call and last value
     """
     axisinp = pygame.event.get(evtype)
+    global JOY_INP
     # Not kept events, will be put back in the queue
-    notkept = [e for e in axisinp if e.axis != axis]
-    map(pygame.event.post, notkept)
-    kept = [e for e in axisinp if e.axis == axis]
-    kval = [e.value for e in kept]
-    kmean = sum(kval)/len(kval) if len(kval) > 0 else defval
-    lval = kval[-1] if len(kval) > 0 else defval
-    return kmean, lval
+    JOY_INP["p"]  += [e.value for e in axisinp if e.axis == HAXIS]
+    JOY_INP["nz"] += [e.value for e in axisinp if e.axis == VAXIS]
 
 
-def nz_from_stick(js, lthresh=0.1):
+def nz_from_stick(js, lthresh=0.05):
     """Returns the nz matching joystick manipulation
 
     :param float lthresh: low threshold defining a deadzone around null point
                           of the joystick
     """
-    vaxismean, linp = extract_evt(pygame.JOYAXISMOTION, VAXIS, LASTVAXISV)
-    global LASTVAXISV
-    LASTVAXISV = linp
-    return nz_mapping(vaxismean) if abs(vaxismean) > lthresh else 0
+    extract_evt(pygame.JOYAXISMOTION)
+    val = sum(JOY_INP["nz"]) / len(JOY_INP["nz"]) if len(JOY_INP["nz"]) > 0 else LASTVAXISV
+    JOY_INP["nz"] = []
+    return nz_mapping(val) if abs(val) > lthresh else 0
 
 
 def p_from_stick(js, lthresh=0.05):
@@ -103,10 +101,10 @@ def p_from_stick(js, lthresh=0.05):
     :param float lthresh: low threshold defining a deadzone around null point
                           of the joystick
     """
-    haxismean, linp = extract_evt(pygame.JOYAXISMOTION, HAXIS, LASTHAXISV)
-    global LASTHAXISV
-    LASTHAXISV = linp
-    return p_mapping(haxismean) if abs(haxismean) > lthresh else 0
+    extract_evt(pygame.JOYAXISMOTION)
+    val = sum(JOY_INP["p"]) / len(JOY_INP["p"]) if len(JOY_INP["p"]) > 0 else LASTHAXISV
+    JOY_INP["p"] = []
+    return p_mapping(val) if abs(val) > lthresh else 0
 
 
 def get_button_pushed():
