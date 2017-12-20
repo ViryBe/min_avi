@@ -4,6 +4,7 @@ import math
 import pygame
 
 DEG2RAD = math.pi / 180
+LIM_P = DEG2RAD * 15
 """Constant to convert degrees to radiants"""
 VAXIS = 1
 """pygame identifier of the vertical axis used"""
@@ -45,7 +46,7 @@ def saturate(insig, lbound, sbound):
         return lbound
     else: return insig
 
-def nz_mapping(vaxisjs, lthrper=0.1):
+def nz_mapping(vaxisjs, lthrper=0.05):
     """Maps output of joystick to n_z
 
     :param float vaxisjs:output of the joystick, in [-1, 1]
@@ -55,14 +56,14 @@ def nz_mapping(vaxisjs, lthrper=0.1):
     return nz
 
 
-def p_mapping(haxisjs, lthrper=0.1):
+def p_mapping(haxisjs, lthrper=0.05):
     """Maps output of joystick to a roll rate
 
     :param haxisjs: output from the joystick in [0,1]
     :param lthrper: threshold of deadzone, in percentage of the max value
                     (which is defined internally...)
     """
-    maxv = 15 * DEG2RAD
+    maxv = LIM_P
     p = maxv * haxisjs
     return p
 
@@ -97,7 +98,7 @@ def nz_from_stick(js, lthresh=0.1):
     return nz_mapping(vaxismean) if abs(vaxismean) > lthresh else 0
 
 
-def p_from_stick(js, lthresh=0.1):
+def p_from_stick(js, lthresh=0.05):
     """Returns the p matching joystick manipulation
     :param float lthresh: low threshold defining a deadzone around null point
                           of the joystick

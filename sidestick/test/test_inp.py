@@ -1,6 +1,7 @@
 """Tests input from joystick"""
 import _common
 import ivy.std_api as isa
+import time
 from sidestick import dev_read as dr
 
 _js = None
@@ -15,8 +16,8 @@ def on_die_proc(agent, _id):
 
 
 def on_msg(agent, data):
-    nz_sent = dr.nz_from_stick(_js)
-    p_sent = dr.p_from_stick(_js)
+    nz_sent = 0
+    p_sent = 0
     isa.IvySendMsg("APNzCommand nz={0}".format(nz_sent))
     isa.IvySendMsg("APLatCommand p={0}".format(p_sent))
 
@@ -34,6 +35,7 @@ app_name = "MyIvyApplication"
 ivy_bus = "127.255.255.255:2010"
 isa.IvyInit(app_name, "[%s ready]" % app_name, 0, on_cx_proc, on_die_proc)
 isa.IvyStart(ivy_bus)
+time.sleep(1)
 isa.IvyBindMsg(on_msg, "^Time t=(.*)")
 isa.IvyBindMsg(reception_nz, "^APNzControl nz=(.*)")
 isa.IvyBindMsg(reception_p, "^APLatControl rollRate=(.*)")
