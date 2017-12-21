@@ -5,10 +5,12 @@ import pygame
 
 DEG2RAD = math.pi / 180
 """Constant to convert degrees to radiants"""
-LIM_P = DEG2RAD * 15
+LIM_P = 15 * DEG2RAD
 LIM_NZ_MIN = -1
 LIM_NZ_MAX = 2.5
-"""list of constants"""
+LIM_PHI_AP = 30 * DEG2RAD
+LIM_PHI_MAN= 66 * DEG2RAD
+"""list of constants/limitations"""
 VAXIS = 1
 """pygame identifier of the vertical axis used"""
 HAXIS = 0
@@ -45,19 +47,18 @@ def exit_pygame():
 
 
 def saturate(insig, lbound, sbound):
-    """Apply safety saturation on input signal"""
-    if insig >= sbound:
-        return sbound
-    elif insig <= lbound:
-        return lbound
-    else: return insig
+    """Apply safety saturation on input signal:
+    ret \in [lbound, sbound]
+    """
+    return (insig if lbound <= insig <= sbound
+            else lbound if insig < lbound else sbound)
 
 def nz_mapping(vaxisjs, lthrper=0.01):
     """Maps output of joystick to n_z
 
     :param float vaxisjs:output of the joystick, in [-1, 1]
     """
-    maxv = 2.5
+    maxv = LIM_NZ_MAX
     nz = maxv * vaxisjs + 1
     return nz
 
@@ -81,8 +82,9 @@ def extract_evt(evtype):
     :returns: nada
     """
     axisinp = pygame.event.get(evtype)
+
     global JOY_INP
-    # Not kept events, will be put back in the queue
+    # we store all from the stick in according to the axis
     JOY_INP["p"]  += [e.value for e in axisinp if e.axis == HAXIS]
     JOY_INP["nz"] += [e.value for e in axisinp if e.axis == VAXIS]
 

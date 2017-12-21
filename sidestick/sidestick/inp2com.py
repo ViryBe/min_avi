@@ -2,16 +2,35 @@
 
 import ivy.std_api as isa
 import dev_read as dr
-from dev_read import DEG2RAD, LIM_NZ_MIN, LIM_NZ_MAX
+from dev_read import (DEG2RAD,
+                      LIM_NZ_MIN,
+                      LIM_NZ_MAX,
+                      LIM_PHI_AP,
+                      LIM_PHI_MAN)
 import time
 from pydub import AudioSegment
 from pydub.playback import play
 
+import threading
+
+class Button_Pushed(threading.Thread):
+
+    def __init__(self):
+        threading.Thread.__init__(self)
+
+    def run(self):
+        """
+        we always need to listen for a pus button not only when we receved
+        a msg. eg when the simulation is in pause
+        """
+        while True:
+            update_ap()
+
 
 _js = None
 """Joystick object to be used"""
-_ap = False
-"""Autopilot engaged"""
+_ap = True
+"""Autopilot engaged ? (ap engaged for take off)"""
 _sound = AudioSegment.from_wav("../data/Autopilot.wav")
 """Audio file to play when disabling auto pilot"""
 _phi = 0
@@ -20,12 +39,14 @@ _phi = 0
 def nz_forward(agent, nzstr):
     """Intercept nz messages"""
     substr = "APNzControl nz="
-    lbd, upb = -1, 2.5
+    lbd, upb = LIM_NZ_MIN, LIM_NZ_MAX
 
-    data = (dr.saturate(float(nzstr), lbd, upb)
-            if update_ap()
-            else dr.saturate(dr.nz_from_stick(_js), lbd, upb))
-
+    # data = (dr.saturate(float(nzstr), lbd, upb)
+    #         if update_ap()
+    #         else dr.saturate(dr.nz_from_stick(_js), lbd, upb))
+    data = dr.saturate((float(nzstr)
+        if update_ap()
+        else dr.nz_from_stick(_js)), lbd, upb)
     isa.IvySendMsg(substr + str(data))
 
 
@@ -36,12 +57,12 @@ def p_forward(agent, pstr):
     if update_ap():
         # limitation 30° if in PA
         data = (dr.saturate(float(pstr), lbd, upb)
-                if not (abs(_phi) > 30 * DEG2RAD)
+                if not (abs(_phi) > LIM_PHI_AP)
                 else 0)
     else:
         # limitation 66° if in PA
         data = (dr.saturate(dr.p_from_stick(_js), lbd, upb)
-                if not (abs(_phi) > 66 * DEG2RAD)
+                if not (abs(_phi) > LIM_PHI_MAN)
                 else 0)
     isa.IvySendMsg(substr + str(data))
 
@@ -58,12 +79,19 @@ def update_ap():
 
 
 def switch_fcu(agent):
+    """
+    manage the autopilot when the  pilot push ap button
+    if |phi| > 30° the ap cannot be engaged
+    """
     global _ap
-    _ap = not _ap
-    msg = "FCUAP1 " + ("on" if _ap else "off")
-    isa.IvySendMsg(msg)
-    if not _ap:
-        play(_sound)
+    if abs(_phi) < LIM_PHI_AP: # plane nedds to be in ap flight domain in order to switch
+        _ap = not _ap
+        msg = "FCUAP1 " + ("on" if _ap else "off")
+        isa.IvySendMsg(msg)
+        if not _ap:
+            play(_sound)
+    else: # if the plane isn't in ap flight domain, do nothing
+        pass
 
 
 def on_cx_proc(*argv):
@@ -85,6 +113,10 @@ def reset_ap(*argv):
 
 
 def update_phi(agent, phi):
+    """
+    we need to track the value of phi (from state vector) in order to
+    implement a basic safty net
+    """
     global _phi
     _phi = float(phi)
 
