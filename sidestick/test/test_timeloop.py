@@ -1,3 +1,12 @@
+"""
+POURQUOI CE TEST ?
+qu'est ce qui est enoyer ? pourquoi ?
+qu'est ce qui est recu ?
+qu'est ce qui est afficher ?
+interet de ce test ?
+"""
+
+
 from ivy.std_api import *
 import random as rd
 from math import pi
@@ -6,8 +15,12 @@ DEG2RAD = pi/180
 
 def on_cx_proc(agent, connected):
     pass
+
+
 def on_die_proc(agent, _id):
     pass
+
+
 def on_msg(agent, data):
     global nz_sent
     global p_sent
@@ -37,6 +50,8 @@ def reception_p(agent, p_received):
         print (p_sent, float(p_received), cmp_float(-15*DEG2RAD, float(p_received)))
     else:
         print (p_sent,float(p_received), cmp_float(15*DEG2RAD,float(p_received)))
+
+
 
 app_name = "MyIvyApplication"
 ivy_bus="127.255.255.255:2010"

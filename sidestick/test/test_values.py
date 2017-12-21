@@ -1,5 +1,15 @@
+"""
+POURQUOI CE TEST ?
+qu'est ce qui est enoyer ? pourquoi ?
+qu'est ce qui est recu ?
+qu'est ce qui est afficher ?
+interet de ce test ?
+"""
+
 """Tests saturation and forward with autopilot engaged, generating 10 random
 values"""
+
+
 from sys import argv, exit
 import math
 import random as rd
@@ -8,8 +18,10 @@ import time
 
 DEG2RAD = math.pi/180
 
+
+# le test est lancé avec un paramètre nz ou p
 if len(argv) == 1:
-    print("il faut 1 argument 'nz' ou 'p'")
+    print("il faut 1 argument : 'nz' ou 'p'")
     sys.exit()
 elif argv[1] == "nz":
     BORNE = 5
@@ -29,14 +41,21 @@ else :
     print("mauvais argument 'nz' ou 'p'")
     sys.exit()
 
-def print_rslt():
-    for sent,rcvd in zip(values_sent, values_received):
-        if sent >= VALUE_MIN and sent <= VALUE_MAX:
-            print(sent, float(rcvd), cmp_float(float(rcvd), float(sent)))
-        elif sent < VALUE_MIN :
-            print(sent, float(rcvd), cmp_float(float(rcvd), float(VALUE_MIN)))
-        else :
-            print(sent, float(rcvd), cmp_float(float(rcvd), float(VALUE_MAX)))
+# fin de l'initialkisation de l'environnement
+# ============================================
+
+def rslt():
+    with open('rslt.txt', 'w') as file:
+        for sent,rcvd in zip(values_sent, values_received):
+            if sent >= VALUE_MIN and sent <= VALUE_MAX:
+                file.write(sent, float(rcvd), cmp_float(float(rcvd), float(sent)))
+                # print(sent, float(rcvd), cmp_float(float(rcvd), float(sent)))
+            elif sent < VALUE_MIN :
+                file.write(sent, float(rcvd), cmp_float(float(rcvd), float(VALUE_MIN)))
+                # print(sent, float(rcvd), cmp_float(float(rcvd), float(VALUE_MIN)))
+            else :
+                file.write(sent, float(rcvd), cmp_float(float(rcvd), float(VALUE_MAX)))
+                # print(sent, float(rcvd), cmp_float(float(rcvd), float(VALUE_MAX)))
 
 def on_cx_proc(agent, connected):
     pass
@@ -47,8 +66,10 @@ def on_die_proc(agent, _id):
 def on_msg(agent, data):
     global values_received
     values_received.append(data)
+    # quand tout les messages on été envoyer et recu, on peut les comparer
+    # et obtenir les resutats avec la fonciton rslt()
     if (len(values_received) == 10):
-        print_rslt()
+        rslt()
 
 
 app_name = "Test"
