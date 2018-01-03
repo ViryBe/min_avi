@@ -39,30 +39,25 @@ _phi = 0
 def nz_forward(agent, nzstr):
     """Intercept nz messages"""
     substr = "APNzControl nz="
-    lbd, upb = LIM_NZ_MIN, LIM_NZ_MAX
+    lb, up = LIM_NZ_MIN, LIM_NZ_MAX
 
-    # data = (dr.saturate(float(nzstr), lbd, upb)
-    #         if update_ap()
-    #         else dr.saturate(dr.nz_from_stick(_js), lbd, upb))
-    data = dr.saturate((float(nzstr)
-        if update_ap()
-        else dr.nz_from_stick(_js)), lbd, upb)
+    data = dr.saturate((float(nzstr) if _ap else dr.nz_from_stick(_js)), lb, up)
     isa.IvySendMsg(substr + str(data))
 
 
 def p_forward(agent, pstr):
     """Intercept p messages"""
     substr = "APLatControl rollRate="
-    lbd, upb = -dr.LIM_P, dr.LIM_P
-    if update_ap():
+    lb, up = -dr.LIM_P, dr.LIM_P
+    if _ap:
         # limitation 30° if in PA
-        data = (dr.saturate(float(pstr), lbd, upb)
-                if not (abs(_phi) > LIM_PHI_AP)
+        data = (dr.saturate(float(pstr), lb, up)
+                if abs(_phi) < LIM_PHI_AP
                 else 0)
     else:
         # limitation 66° if not in PA
-        data = (dr.saturate(dr.p_from_stick(_js), lbd, upb)
-                if not (abs(_phi) > LIM_PHI_MAN)
+        data = (dr.saturate(dr.p_from_stick(_js), lb, up)
+                if abs(_phi) < LIM_PHI_MAN
                 else 0)
     isa.IvySendMsg(substr + str(data))
 
