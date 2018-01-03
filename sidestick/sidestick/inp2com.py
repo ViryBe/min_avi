@@ -2,6 +2,8 @@
 
 import ivy.std_api as isa
 import dev_read as dr
+
+# include some cst
 from dev_read import (DEG2RAD,
                       LIM_NZ_MIN,
                       LIM_NZ_MAX,
@@ -12,6 +14,16 @@ from pydub import AudioSegment
 from pydub.playback import play
 
 import threading
+
+_js = None
+"""Joystick object to be used"""
+_ap = True
+"""Autopilot engaged ? (ap engaged for take off)"""
+_sound = AudioSegment.from_wav("../data/Autopilot.wav")
+"""Audio file to play when disabling auto pilot"""
+_phi = 0
+"""current phi position (for safety net)"""
+
 
 class Button_Pushed(threading.Thread):
 
@@ -26,15 +38,6 @@ class Button_Pushed(threading.Thread):
         while True:
             update_ap()
 
-
-_js = None
-"""Joystick object to be used"""
-_ap = True
-"""Autopilot engaged ? (ap engaged for take off)"""
-_sound = AudioSegment.from_wav("../data/Autopilot.wav")
-"""Audio file to play when disabling auto pilot"""
-_phi = 0
-"""current phi position (for safety net)"""
 
 def nz_forward(agent, nzstr):
     """Intercept nz messages"""
