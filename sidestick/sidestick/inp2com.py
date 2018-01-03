@@ -69,10 +69,13 @@ def update_ap():
     """Updates _ap flag and returns it"""
     global _ap
     preap = _ap
+    print(dr.get_button_pushed())
     _ap = _ap and not dr.get_button_pushed()
     if preap is not _ap:
+        # print("\n\FCUAP1 off\n\n")
         isa.IvySendMsg("FCUAP1 off")
         play(_sound)
+    # print(_ap)
     return _ap
 
 
@@ -81,6 +84,7 @@ def switch_fcu(agent):
     manage the autopilot when the  pilot push ap button
     if |phi| > 30° the ap cannot be engaged
     """
+    print("\n\nswtich\n\n")
     global _ap
     if abs(_phi) < LIM_PHI_AP: # plane nedds to be in ap flight domain in order to switch
         _ap = not _ap
@@ -128,9 +132,16 @@ def init_ivy():
     isa.IvyStart(ivy_bus)
     time.sleep(2)
 
+    # create a nex thread
+    listen_button = Button_Pushed()
+    listen_button.start()
+
     isa.IvyBindMsg(nz_forward, "^APNzCommand nz=(.*)")
     isa.IvyBindMsg(p_forward, "^APLatCommand p=(.*)")
-    isa.IvyBindMsg(reset_ap, "FCUAP1 on")
+    # isa.IvyBindMsg(reset_ap, "FCUAP1 on")
     isa.IvyBindMsg(switch_fcu, "FCUAP1 push")
     isa.IvyBindMsg(update_phi, "StateVector x=.* y=.* Vp=.* fpa=.* psi=.* phi=(.*)")
     isa.IvyMainLoop()
+
+    # wait the end
+    listen_button.join()
