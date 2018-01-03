@@ -60,7 +60,7 @@ def p_forward(agent, pstr):
                 if not (abs(_phi) > LIM_PHI_AP)
                 else 0)
     else:
-        # limitation 66° if in PA
+        # limitation 66° if not in PA
         data = (dr.saturate(dr.p_from_stick(_js), lbd, upb)
                 if not (abs(_phi) > LIM_PHI_MAN)
                 else 0)
