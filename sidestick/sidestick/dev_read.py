@@ -119,3 +119,10 @@ def p_from_stick(js, lthresh=0.05):
 def get_button_pushed():
     """Returns whether a button has been pushed since last call"""
     return len(pygame.event.get(pygame.JOYBUTTONDOWN)) > 0
+
+
+def flush_button_queue():
+    """
+    flush all Button_Pushed events
+    """
+    pygame.event.get(pygame.JOYBUTTONDOWN)
