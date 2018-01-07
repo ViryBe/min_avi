@@ -1,11 +1,9 @@
 """
-POURQUOI CE TEST ?
-qu'est ce qui est enoyer ? pourquoi ?
-qu'est ce qui est recu ?
-qu'est ce qui est afficher ?
-interet de ce test ?
+Ce fichier permet de d'Ã©valuer la rÃ©action du mini-manche en temps rÃ©el lorsque le pilote automatique est engagÃ©.
+La consigne est simulÃ©e par l'envoi d'un valeur de nz et de p Ã  chaque pas de temps.
+On vÃ©rifie ensuite que les valeurs renvoyÃ©es par le mini-manche correspondent bien Ã  la consigne envoyÃ©e.
+MÃªme systÃ¨me de saturation que dans le fichier test_values".
 """
-
 
 from ivy.std_api import *
 import random as rd
