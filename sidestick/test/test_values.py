@@ -1,9 +1,9 @@
 """
-POURQUOI CE TEST ?
-qu'est ce qui est enoyer ? pourquoi ?
-qu'est ce qui est recu ?
-qu'est ce qui est afficher ?
-interet de ce test ?
+Ce fichier permet de d'Ã©valuer la rÃ©action du mini-manche face Ã  une consigne lorsque le pilote automatique est engagÃ©.
+On simule cette consigne par l'envoi de 10 valeurs de facteur de charge vertical ou de taux de roulis au mini-manche.
+On vÃ©rifie ensuite que les valeurs renvoyÃ©es par le mini-manche correspondent bien Ã  la consigne envoyÃ©e.
+Lorsque les valeurs envoyÃ©es sont en dehors de l'intervalle de valeurs admissibles (intervalle de confort pour les
+ passagers), le mnin-manche est censÃ© renvoyer des valeurs limites : systÃ¨me de saturation.
 """
 
 """Tests saturation and forward with autopilot engaged, generating 10 random
