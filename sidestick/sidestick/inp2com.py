@@ -13,8 +13,6 @@ import time
 from pydub import AudioSegment
 from pydub.playback import play
 
-import threading
-
 _js = None
 """Joystick object to be used"""
 _ap = True
@@ -24,25 +22,11 @@ _sound = AudioSegment.from_wav("../data/Autopilot.wav")
 _phi = 0
 """current phi position (for safety net)"""
 
-
-class Button_Pushed(threading.Thread):
-
-    def __init__(self):
-        threading.Thread.__init__(self)
-
-    def run(self):
-        """
-        we always need to listen for a pus button not only when we receved
-        a msg. eg when the simulation is in pause
-        """
-        while True:
-            update_ap()
-
-
 def nz_forward(agent, nzstr):
     """Intercept nz messages"""
     substr = "APNzControl nz="
     lb, up = LIM_NZ_MIN, LIM_NZ_MAX
+    update_ap()
 
     data = dr.saturate((float(nzstr) if _ap else dr.nz_from_stick(_js)), lb, up)
     isa.IvySendMsg(substr + str(data))
@@ -52,6 +36,7 @@ def p_forward(agent, pstr):
     """Intercept p messages"""
     substr = "APLatControl rollRate="
     lb, up = -dr.LIM_P, dr.LIM_P
+    update_ap()
     if _ap:
         # limitation 30° if in PA
         data = (dr.saturate(float(pstr), lb, up)
@@ -69,7 +54,6 @@ def update_ap():
     """Updates _ap flag and returns it"""
     global _ap
     preap = _ap
-    print(dr.get_button_pushed())
     _ap = _ap and not dr.get_button_pushed()
     if preap is not _ap:
         # print("\n\FCUAP1 off\n\n")
@@ -86,6 +70,7 @@ def switch_fcu(agent):
     """
     print("\n\nswtich\n\n")
     global _ap
+    dr.flush_button_queue() # flush the queue
     if abs(_phi) < LIM_PHI_AP: # plane nedds to be in ap flight domain in order to switch
         _ap = not _ap
         msg = "FCUAP1 " + ("on" if _ap else "off")
@@ -132,16 +117,9 @@ def init_ivy():
     isa.IvyStart(ivy_bus)
     time.sleep(2)
 
-    # create a nex thread
-    listen_button = Button_Pushed()
-    listen_button.start()
-
     isa.IvyBindMsg(nz_forward, "^APNzCommand nz=(.*)")
     isa.IvyBindMsg(p_forward, "^APLatCommand p=(.*)")
     # isa.IvyBindMsg(reset_ap, "FCUAP1 on")
     isa.IvyBindMsg(switch_fcu, "FCUAP1 push")
     isa.IvyBindMsg(update_phi, "StateVector x=.* y=.* Vp=.* fpa=.* psi=.* phi=(.*)")
     isa.IvyMainLoop()
-
-    # wait the end
-    listen_button.join()
