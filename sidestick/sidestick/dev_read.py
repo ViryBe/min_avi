@@ -121,8 +121,9 @@ def get_button_pushed():
     return len(pygame.event.get(pygame.JOYBUTTONDOWN)) > 0
 
 
-def flush_button_queue():
+def flush_all():
     """
-    flush all Button_Pushed events
+    flush all inputs from the stick
     """
+    pygame.event.get(pygame.JOYAXISMOTION)
     pygame.event.get(pygame.JOYBUTTONDOWN)

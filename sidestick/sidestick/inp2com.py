@@ -40,12 +40,12 @@ def p_forward(agent, pstr):
     if _ap:
         # limitation 30° if in PA
         data = (dr.saturate(float(pstr), lb, up)
-                if abs(_phi) < LIM_PHI_AP
+                if abs(_phi) <= LIM_PHI_AP
                 else 0)
     else:
         # limitation 66° if not in PA
         data = (dr.saturate(dr.p_from_stick(_js), lb, up)
-                if abs(_phi) < LIM_PHI_MAN
+                if abs(_phi) <= LIM_PHI_MAN
                 else 0)
     isa.IvySendMsg(substr + str(data))
 
@@ -56,10 +56,8 @@ def update_ap():
     preap = _ap
     _ap = _ap and not dr.get_button_pushed()
     if preap is not _ap:
-        # print("\n\FCUAP1 off\n\n")
         isa.IvySendMsg("FCUAP1 off")
         play(_sound)
-    # print(_ap)
     return _ap
 
 
@@ -68,10 +66,12 @@ def switch_fcu(agent):
     manage the autopilot when the  pilot push ap button
     if |phi| > 30° the ap cannot be engaged
     """
-    print("\n\nswtich\n\n")
     global _ap
-    dr.flush_button_queue() # flush the queue
-    if abs(_phi) < LIM_PHI_AP: # plane nedds to be in ap flight domain in order to switch
+    # flush all inputs from the stick
+    dr.flush_all()
+
+    # plane nedds to be in ap flight domain in order to switch
+    if abs(_phi) < LIM_PHI_AP:
         _ap = not _ap
         msg = "FCUAP1 " + ("on" if _ap else "off")
         isa.IvySendMsg(msg)
@@ -105,6 +105,7 @@ def update_phi(agent, phi):
     implement a basic safty net
     """
     global _phi
+    print("phi", phi)
     _phi = float(phi)
 
 
@@ -119,7 +120,6 @@ def init_ivy():
 
     isa.IvyBindMsg(nz_forward, "^APNzCommand nz=(.*)")
     isa.IvyBindMsg(p_forward, "^APLatCommand p=(.*)")
-    # isa.IvyBindMsg(reset_ap, "FCUAP1 on")
     isa.IvyBindMsg(switch_fcu, "FCUAP1 push")
     isa.IvyBindMsg(update_phi, "StateVector x=.* y=.* Vp=.* fpa=.* psi=.* phi=(.*)")
     isa.IvyMainLoop()
