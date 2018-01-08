@@ -11,6 +11,8 @@
 *.fdb_latexmk
 latex/pics
 
+*.un~
+
 *.pyc
 
 acftsim/
