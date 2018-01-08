@@ -13,7 +13,7 @@
 
 \title{Projet avion mineure AVI}
 \author{Damien Thoral, Gabriel Hondet, Benoit Viry, Nicolas Soulard}
-\date{}
+\date{\today}
 
 % ----------------------------------------------------------
 % nuremotation des pages -----------------------------------
@@ -97,31 +97,41 @@
 \end{frame}
 
 \begin{frame}[t]{Gestion de la file}
-  \begin{block}{Donnees}
+  \begin{block}{Données}
     Chaque grandeur dispose
     \begin{itemize}
-      \item d'une liste contenant toutes les entrees depuis le derniere boucle
+      \item d'une liste contenant toutes les entrées depuis le dernière boucle
         la concernant,
-      \item une variable \texttt{LASTAXISV} contenant la derniere
-        valeur relevee.
+      \item une variable \texttt{LASTAXISV} contenant la dernière
+        valeur relevée.
     \end{itemize}
   \end{block}
-  \begin{block}{Obtention des donnees}
+  \begin{block}{Obtention des données}
     \begin{enumerate}
-      \item La file d'evenements est videe dans une liste temporaire,
-      \item les evenements de la file temporaire sont repartis entre les listes
-        correpondant aux grandeurs,
-      \item la variable \texttt{LASTAXISV} correspondante est modifiee, et sa
-        valeur est renvoyee.
+      \item La file d'événements est vidée dans une liste temporaire,
+      \item les événements de la file temporaire sont repartis entre les listes
+        correspondant aux grandeurs,
+      \item la variable \texttt{LASTAXISV} correspondante est modifiée, et sa
+        valeur est renvoyée.
     \end{enumerate}
   \end{block}
 \end{frame}
 
-\begin{frame}[t]{Le besoin d'un thread}
-  \begin{block}{\texttt{}}
-    Pour capturer les evenements \texttt{JOYBUTTONDOWN} et détecter quand le
-    pilotage automatique doit être déconnecter, il a été necéssaire de d'implémenter
-    un \texttt{thread} spécifique.
+\begin{frame}[t]{Gestion de l'auto pilot}
+  \begin{block}{Besoin de thread}
+    L'appui de boutons pour désactiver l'auto pilote devant être effectif a tout
+    moment, un thread dédie est nécessaire.
+  \end{block}
+  \begin{block}{Contenu du thread}
+    Boucle infinie appelant la procédure \texttt{update\_ap},
+    \begin{enumerate}
+      \item récupérer l'état du pilote automatique via une variable
+        globale,
+      \item récolter des événements de la file concernant les appuis boutons,
+      \item si un bouton a été appuyé et que le pilote n'était pas enclenche,
+        alors desenclencher le pilote automatique,
+      \item renvoyer l'état de l'auto pilote.
+    \end{enumerate}
   \end{block}
 \end{frame}
 
