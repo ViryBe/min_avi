@@ -96,6 +96,7 @@
   \end{block}
 \end{frame}
 
+\subsection{Gestion des événements}
 \begin{frame}[t]{Gestion de la file}
   \begin{block}{Données}
     Chaque grandeur dispose
@@ -132,6 +133,26 @@
         alors desenclencher le pilote automatique,
       \item renvoyer l'état de l'auto pilote.
     \end{enumerate}
+  \end{block}
+\end{frame}
+
+\subsection{Traitement des données}
+\begin{frame}[t]{Plages de valeurs}
+  \begin{block}{Définition des plages}
+    \begin{itemize}
+      \item \(n_z \in \mathbf{D}_{n_z} = [-1, 2.5]\)m\(\cdot\)s\(^{-2}\),
+      \item \(p \in \mathbf{D}_p = [-15, 15]\deg\).
+    \end{itemize}
+  \end{block}
+  \begin{block}{Conformité des données}
+    \begin{itemize}
+      \item Si auto pilote activé, les données passent par une
+        fonction \(f\colon D\mapsto A\subset \mathbf{D}_{n_z}\) ou
+        \(\mathbf{D}_p\),
+      \item sinon, une fonction \(g\colon[-1, 1] \mapsto \mathbf{D}_{n_z}\) ou
+        \(\mathbf{D}_p\) associe a la valeur en sortie du mini manche une valeur
+        adéquate.
+    \end{itemize}
   \end{block}
 \end{frame}
 
