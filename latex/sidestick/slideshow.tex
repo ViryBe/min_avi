@@ -1,4 +1,4 @@
-\documentclass[tikz, footheight=2em]{beamer}
+\documentclass[footheight=2em]{beamer}
 \usetheme[hideothersubsections]{Hannover}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -7,12 +7,7 @@
 \usepackage{amsmath}
 \usepackage{color,graphicx}
 \usepackage{gensymb}
-\usepackage[]{tikz}
-\usetikzlibrary{quotes,angles}
 \usepackage{tikz}
-\usetikzlibrary{arrows}
-\usetikzlibrary{calc}
-\usetikzlibrary{positioning}
 
 \usecolortheme{dolphin}
 
@@ -91,7 +86,7 @@
 \begin{frame}[t]{Module \texttt{pygame}}
   \begin{block}{File d'evenements}
     Une file contenant tous les evenements provenant du joystick est maintenue
-    par \texttt{pygame}. 
+    par \texttt{pygame}.
   \end{block}
   \begin{block}{Interaction avec la file}
     \begin{itemize}
@@ -103,8 +98,22 @@
 
 \begin{frame}[t]{Gestion de la file}
   \begin{block}{Donnees}
-    Chaque grandeur dispose d'une liste contenant toutes les entrees depuis le
-    derniere boucle la concernant.
+    Chaque grandeur dispose
+    \begin{itemize}
+      \item d'une liste contenant toutes les entrees depuis le derniere boucle
+        la concernant,
+      \item une variable \texttt{LASTAXISV} contenant la derniere
+        valeur relevee.
+    \end{itemize}
+  \end{block}
+  \begin{block}{Obtention des donnees}
+    \begin{enumerate}
+      \item La file d'evenements est videe dans une liste temporaire,
+      \item les evenements de la file temporaire sont repartis entre les listes
+        correpondant aux grandeurs,
+      \item la variable \texttt{LASTAXISV} correspondante est modifiee, et sa
+        valeur est renvoyee.
+    \end{enumerate}
   \end{block}
 \end{frame}
 
