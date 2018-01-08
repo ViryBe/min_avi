@@ -91,7 +91,7 @@
 \begin{frame}[t]{Module \texttt{pygame}}
   \begin{block}{File d'evenements}
     Une file contenant tous les evenements provenant du joystick est maintenue
-    par \texttt{pygame}. 
+    par \texttt{pygame}.
   \end{block}
   \begin{block}{Interaction avec la file}
     \begin{itemize}
@@ -107,6 +107,15 @@
     derniere boucle la concernant.
   \end{block}
 \end{frame}
+
+\begin{frame}[t]{Le besoin d'un thread}
+  \begin{block}{\texttt{}}
+    Pour capturer les evenements \texttt{JOYBUTTONDOWN} et détecter quand le
+    pilotage automatique doit être déconnecter, il a été necéssaire de d'implémenter
+    un \texttt{thread} spécifique.
+  \end{block}
+\end{frame}
+
 
 \section{Tests}
 \end{document}
