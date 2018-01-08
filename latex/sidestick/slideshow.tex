@@ -1,0 +1,112 @@
+\documentclass[tikz, footheight=2em]{beamer}
+\usetheme[hideothersubsections]{Hannover}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{color,graphicx}
+\usepackage{gensymb}
+\usepackage[]{tikz}
+\usetikzlibrary{quotes,angles}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+
+\usecolortheme{dolphin}
+
+\title{Projet avion mineure AVI}
+\author{Damien Thoral, Gabriel Hondet, Benoit Viry, Nicolas Soulard}
+\date{}
+
+% ----------------------------------------------------------
+% nuremotation des pages -----------------------------------
+% ----------------------------------------------------------
+\def\swidth{1.6cm}
+\setbeamersize{sidebar width left=\swidth}
+\setbeamertemplate{sidebar left}
+{%
+  {\usebeamerfont{title in sidebar}
+    \vskip1.5em
+    \usebeamercolor[fg]{title in sidebar}
+    \insertshorttitle[width=\swidth,center,respectlinebreaks]\par
+    \vskip1.25em
+  }
+  {
+    \usebeamercolor[fg]{author in sidebar}
+    \usebeamerfont{author in sidebar}
+    \insertshortauthor[width=\swidth,center,respectlinebreaks]\par
+    \vskip1.25em
+  }
+  \hbox to2cm{\hss\insertlogo\hss}
+  \vskip1.25em
+  \insertverticalnavigation{\swidth}
+  \vfill
+  \hbox to2cm{\hskip0.6cm\usebeamerfont{subsection in
+      sidebar}\strut\usebeamercolor[fg]{subsection in
+      sidebar}\insertframenumber /\inserttotalframenumber\hfill}
+  \vskip3pt
+}
+% ----------------------------------------------------------
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+\AtBeginSection[]
+{%
+  \begin{frame}
+    \frametitle{Plan}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\section{Specifications}
+
+\section{Boucle de scrutation}
+\begin{frame}[t]{Boucle de scrutation}
+  \begin{block}{Declenchement}
+    Lancee a chaque reception d'un message de la part de l'auto pilote.
+  \end{block}
+
+  \begin{block}{Contenu}
+    \begin{enumerate}
+      \item mise a jour etat du minimanche (actif ou non)
+      \item si actif, lecture des donnees provenant du minimanche
+      \item verification de la valeur
+      \item renvoit de la valeur sur le bus.
+    \end{enumerate}
+  \end{block}
+
+  \begin{block}{Distinction des grandeurs}
+    Une boucle ne concerne \emph{qu'une seule} grandeur, determinee par le
+    message la declenchant.
+  \end{block}
+\end{frame}
+
+\section{Gestion des evenements entrants}
+\subsection{Module \texttt{pygame}}
+\begin{frame}[t]{Module \texttt{pygame}}
+  \begin{block}{File d'evenements}
+    Une file contenant tous les evenements provenant du joystick est maintenue
+    par \texttt{pygame}. 
+  \end{block}
+  \begin{block}{Interaction avec la file}
+    \begin{itemize}
+      \item \texttt{get()} renvoit les donnees du joystick et vide la file.
+      \item \texttt{get(evt)} ne traite que les evenements du type \texttt{evt}.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[t]{Gestion de la file}
+  \begin{block}{Donnees}
+    Chaque grandeur dispose d'une liste contenant toutes les entrees depuis le
+    derniere boucle la concernant.
+  \end{block}
+\end{frame}
+
+\section{Tests}
+\end{document}
