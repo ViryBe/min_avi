@@ -59,6 +59,28 @@
 }
 
 \section{Spécifications}
+\begin{frame}[t]{Entrées sorties}
+  \begin{scriptsize}
+    \begin{figure}
+      \centering
+      \begin{tikzpicture}
+        \draw (0,4) rectangle (2,0);
+        \draw (1,2) node {Mini manche};
+        % Input
+        \draw (-1,1) -- (0,1) node[left] {FCUAP push};
+        \draw (-1,2) -- (0,2) node[left] {APLatCommand $p=(\backslash S+)$};
+        \draw (-1,3) -- (0,3) node[left] {APNzCommand $n_z=(\backslash S+)$};
+        %Output
+        \draw (2,3) -- (3,3) node[right] {APNzControl \(n_z=(\backslash S+)\)};
+        \draw (2,2) -- (3,2) node[right]
+        {APNzControl rollrate\(=(\backslash S+)\)};
+        \draw (2,1) -- (3,1) node[right] {FCUAP1 on/off};
+      \end{tikzpicture}
+      \caption{Entrées et sorties du minimanche}
+      \label{fig:io}
+    \end{figure}
+  \end{scriptsize}
+\end{frame}
 
 \section{Boucle de scrutation}
 \begin{frame}[t]{Boucle de scrutation}
