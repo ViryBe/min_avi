@@ -41,14 +41,14 @@ textwidth=290mm,textheight=205mm]{geometry}
 \begin{center}
 	\Large\textbf{Real Time Computing}
 \end{center}
-\begin{itemize}
+\begin{compactitem}
 	\item System that reacts to exteriors events. Events are
 		asynchronous regarding the activities carried out by the computer.
 	\item Every events must be treated, real time systems or reactive systems.
 	\item The system must react in a specified delay.
 	\item Determinism is compulsory, each operation must be done in a defined
 		amount of time.
-\end{itemize}
+\end{compactitem}
 
 \section{Fundamentals}
 \subsection{Real Time System}
@@ -65,11 +65,11 @@ textwidth=290mm,textheight=205mm]{geometry}
 
 \subsection{RTS taxonomy}
 Three types of rts:
-\begin{itemize}
+\begin{compactitem}
 	\item Hard real-time: critical system, every deadline must be treated, in 
 		the given amount of time.
 	\item Soft real-time: some deadlines can be missed.
-\end{itemize}
+\end{compactitem}
 
 \paragraph{Lifetime of data}
 Data must be processed quickly enough, as they might be transient (e.g.\ gnss
@@ -78,57 +78,57 @@ examined before processing data to verify whether the data is relevant.
 
 \subsection{Time factor}
 Application based real time systems 
-\begin{itemize}
+\begin{compactitem}
 	\item Delivery time: max amount of time allowed to carry out the associated
 		processing to an event.
 	\item Urgency: Require to impose a priority hierarchy taking into account
 		simultaneous event requests while insuring that each event could be
 		dealt with within its own time limit (delivery time). Enables conceptor
 		to set priorities to tasks.
-\end{itemize}
+\end{compactitem}
 
 \subsection{Dealing with the Timing Constraints}
 \begin{description}
 	\item [Low timing constraint]
-		\begin{itemize}
+		\begin{compactitem}
 			\item Process evolving relatively slowly (compared to the system).
 			\item Use of a sampling loop, in which  each sensor is queried.
 			\item Looping frequency must be controlled (worst case).
-		\end{itemize}
+		\end{compactitem}
 	\item[Low timing constraint overall and  constraining events]
-		\begin{itemize}
+		\begin{compactitem}
 			\item Use of interruption mechanism.
 			\item Still using a main sampling loop, interrupted by interrupt
 				requests.
-		\end{itemize}
+		\end{compactitem}
 	\item[High timing constraint]
-		\begin{itemize}
+		\begin{compactitem}
 			\item Processing not correlated to event occurrence.
 			\item Event logged, program manages the processing sequence.
-		\end{itemize}
+		\end{compactitem}
 \end{description}
 
 \subsection{Real time application}
 Multi tasking, with more specifications for each task.
-\begin{itemize}
+\begin{compactitem}
 	\item Priority level
 	\item Behaviour, some allows certification
-		\begin{itemize}
+		\begin{compactitem}
 			\item periodic (with time constant period)
 			\item not periodic
 			\item occasional (sporadic)
-		\end{itemize}
+		\end{compactitem}
 	\item Hardware and software resources,
 	\item Temporal specifications, dates and delays, four dates
-		\begin{itemize}
+		\begin{compactitem}
 			\item min beginning, resources not available yet
 			\item max beginning: if task starts after this date, program
 				will end too late
 			\item min end, result can be delivered before this date, but end
 				user not available
 			\item max end
-		\end{itemize}
-\end{itemize}
+		\end{compactitem}
+\end{compactitem}
 
 \begin{defn}[Preemptive scheduling]
 	Kernel can suspend any task at any time to run another task (e.g.\ with
@@ -137,11 +137,11 @@ Multi tasking, with more specifications for each task.
 
 \begin{description}
 	\item[immediate tasks]
-		\begin{itemize}
+		\begin{compactitem}
 			\item high priority
 			\item process events and operates actions
 			\item critical tasks
-		\end{itemize}
+		\end{compactitem}
 	\item[deferred tasks]
 		low priority tasks
 \end{description}
@@ -152,43 +152,43 @@ Multi tasking, with more specifications for each task.
 
 \subsection{Real time executives}
 Multi purpose os
-\begin{itemize}
+\begin{compactitem}
 	\item fair scheduling between tasks
 	\item increasing number of apps, swapping\dots
 	\item buffering not relevant: no determinism while loading data
-\end{itemize}
+\end{compactitem}
 
 \paragraph{Kernel, executive and operating system concepts}
-\begin{itemize}
+\begin{compactitem}
 	\item RT kernel
-		\begin{itemize}
+		\begin{compactitem}
 			\item core of kernel manages bare minimum.
 			\item less intermediates
-		\end{itemize}
+		\end{compactitem}
 	\item RT executive
-		\begin{itemize}
+		\begin{compactitem}
 			\item higher set of a rt kernel (IO management, memory management,
 				specification and programming utilities, debugging tools)
-		\end{itemize}
+		\end{compactitem}
 	\item RTOS
-		\begin{itemize}
+		\begin{compactitem}
 			\item higher set of a real time executive
-		\end{itemize}
-\end{itemize}
+		\end{compactitem}
+\end{compactitem}
 
 \paragraph{Scheduling}
-\begin{itemize}
+\begin{compactitem}
 	\item Programme managing the sequence of tasks
 	\item Multi purpose os $\ne$ rt
 	\item Sequencing modified only if new events
 	\item Multi purpose scheduling policies
-		\begin{itemize}
+		\begin{compactitem}
 			\item FIFO, processes in queue. No reactivity
 			\item Round-robin, each task is executed during a specified time
 				(when FIFO executes the whole task), used in multi purpose os.
-		\end{itemize}
+		\end{compactitem}
 	\item Real time scheduling policies
-		\begin{itemize}
+		\begin{compactitem}
 			\item Fixed priority, priorities can't change (chosen at development
 				time) (small systems)
 			\item RMS, periodic tasks, allows formal proofs on
@@ -197,8 +197,8 @@ Multi purpose os
 			\item EDF Earliest Deadline First, not fixed priorities: can be
 				modified by sequencer, priority higher if deadline closer, needs
 				more computation time
-		\end{itemize}
-\end{itemize}
+		\end{compactitem}
+\end{compactitem}
 \begin{rem}
 	The more a kernel is preemptive, the more it is reactive.
 \end{rem}
@@ -222,27 +222,27 @@ Multi purpose os
 
 \subsection{Simulation process}
 Following activities must be done
-\begin{itemize}
+\begin{compactitem}
 	\item Specify the scope of the simulation;
 	\item evaluate the required level of accuracy.
-\end{itemize}
+\end{compactitem}
 
 \subsection{Model design methods}
-\begin{itemize}
+\begin{compactitem}
 	\item Reverse engineering (see matrix model)
 	\item Mathematical model, very representative for well known domain but can
 		be very complicated and require serious computing resources.
 	\item Mathematical model for fluid mechanics: simplification and
 		linearisation or finite elements method.
-\end{itemize}
+\end{compactitem}
 
 \subsection{Real time simulation}
 Several times
-\begin{itemize}
+\begin{compactitem}
 	\item time of real life
 	\item time a process is schedule
 	\item executiom time of a process
-\end{itemize}
+\end{compactitem}
 \begin{rem}
 	Pay attention to scheduling and the info gathering delay.
 \end{rem}
@@ -256,10 +256,10 @@ Interruptions
 
 \subsubsection{Continuous events and simulation}
 Mixes continuous behaviour and descrete events, uses hybrid simulations.
-\begin{itemize}
+\begin{compactitem}
 	\item tolerating delays in treatment, interruptions with high priority
 	\item no delay possible
-\end{itemize}
+\end{compactitem}
 
 \subsubsection{Aperiodic tasks}
 For background computating. An aperiodic task is processed when the cpu happens
@@ -267,7 +267,7 @@ to be idle. Determinism is jeopardised but might be necessary.
 
 \subsection{Simulation modes}
 Mode specifies processing, by block
-\begin{itemize}
+\begin{compactitem}
 	\item launch (async): cleaning memory, config file loading, data loading
 	\item initialisation: set reasonable values to all outputs
 	\item stabilisation: used with flight model, sets a trimmed flight when
@@ -278,7 +278,7 @@ Mode specifies processing, by block
 		it: as a mode (do not execute any model) or freezing the time (time
 		cycle variable to zero, flight parameters are fixed, model can be
 		debugged as they are still running)
-\end{itemize}
+\end{compactitem}
 
 \subsubsection{Stabilisation mode}
 Objective is to zero all accelerations (4 flight controls and 3 eulers angles).
@@ -297,37 +297,37 @@ applications performing or contributing to aircraft functions.
 Safety issues, failure of a function must not endanger other functions.
 
 Main benefits:
-\begin{itemize}
+\begin{compactitem}
 	\item easier to certify
 	\item less spare needed as fewer specific models used (genericiy)
-\end{itemize}
+\end{compactitem}
 
 Main characteristics
-\begin{itemize}
+\begin{compactitem}
 	\item standardized interface
 	\item shared resources and partitioning
 	\item application software functional independance
 	\item fault tolerance
-\end{itemize}
+\end{compactitem}
 
 Uses afdx (patented by airbus).
 
 \paragraph{Temporal partitioning}\label{par:temporal_partitioning}
 
-\begin{itemize}
+\begin{compactitem}
 	\item Strict allocation to each system application
 	\item Periodic ficesd scheduling at application level
 	\item no prioritisationat application level
 	\item derterministic slicing methodology
 	\item uninterrupted access to common resources during assigned time periods
 		of partitions
-\end{itemize}
+\end{compactitem}
 
 \subsection{Concept of extended robust partitioning}
 The performance of each system must be unaffected by any other,
-\begin{itemize}
+\begin{compactitem}
 	\item safety concern: segregation and various DAL,
 	\item industrial concern: independant integration on patform and independant
 		evolutions of applications.
-\end{itemize}
+\end{compactitem}
 \end{document}
