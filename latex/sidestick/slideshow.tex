@@ -58,40 +58,40 @@
   \end{frame}
 }
 
-\section{Specifications}
+\section{Spécifications}
 
 \section{Boucle de scrutation}
 \begin{frame}[t]{Boucle de scrutation}
-  \begin{block}{Declenchement}
-    Lancee a chaque reception d'un message de la part de l'auto pilote.
+  \begin{block}{Déclenchement}
+    Lancée a chaque réception d'un message de la part de l'auto pilote.
   \end{block}
 
   \begin{block}{Contenu}
     \begin{enumerate}
-      \item mise a jour etat du minimanche (actif ou non)
-      \item si actif, lecture des donnees provenant du minimanche
-      \item verification de la valeur
-      \item renvoit de la valeur sur le bus.
+      \item mise a jour état du mini manche (actif ou non)
+      \item si actif, lecture des données provenant du mini manche
+      \item vérification de la valeur
+      \item revoit de la valeur sur le bus.
     \end{enumerate}
   \end{block}
 
   \begin{block}{Distinction des grandeurs}
-    Une boucle ne concerne \emph{qu'une seule} grandeur, determinee par le
-    message la declenchant.
+    Une boucle ne concerne \emph{qu'une seule} grandeur, déterminée par le
+    message la déclenchant.
   \end{block}
 \end{frame}
 
-\section{Gestion des evenements entrants}
+\section{Gestion des événements entrants}
 \subsection{Module \texttt{pygame}}
 \begin{frame}[t]{Module \texttt{pygame}}
-  \begin{block}{File d'evenements}
-    Une file contenant tous les evenements provenant du joystick est maintenue
-    par \texttt{pygame}.
+  \begin{block}{File d'événements}
+    Une file contenant tous les événements provenant du mini manche est
+    maintenue par \texttt{pygame}.
   \end{block}
   \begin{block}{Interaction avec la file}
     \begin{itemize}
-      \item \texttt{get()} renvoit les donnees du joystick et vide la file.
-      \item \texttt{get(evt)} ne traite que les evenements du type \texttt{evt}.
+      \item \texttt{get()} revoit les données du minimanche et vide la file.
+      \item \texttt{get(evt)} ne traite que les événements du type \texttt{evt}.
     \end{itemize}
   \end{block}
 \end{frame}
@@ -147,8 +147,7 @@
   \begin{block}{Conformité des données}
     \begin{itemize}
       \item Si auto pilote activé, les données passent par une
-        fonction \(f\colon D\mapsto A\subset \mathbf{D}_{n_z}\) ou
-        \(\mathbf{D}_p\),
+        fonction \(f\colon D \mapsto \mathbf{D}_{n_z}\) ou \(\mathbf{D}_p\),
       \item sinon, une fonction \(g\colon[-1, 1] \mapsto \mathbf{D}_{n_z}\) ou
         \(\mathbf{D}_p\) associe a la valeur en sortie du mini manche une valeur
         adéquate.
@@ -158,4 +157,45 @@
 
 
 \section{Tests}
+\begin{frame}[t]{Définition des tests}
+  \begin{block}{Valeurs de test}
+    Envoi d'une série de 10 valeurs aléatoires au mini manche,
+    \begin{itemize}
+      \item \(n_z \in [-5, 5]\),
+      \item \(p \in [-30, 30]\).
+    \end{itemize}
+  \end{block}
+  \begin{block}{Test de valeurs}
+    Vérification de la conformité des valeurs en sortie,
+    \begin{itemize}
+      \item \(n_z \in [-1, 2.5]\),
+      \item \(p \in [-15, 15]\).
+    \end{itemize}
+  \end{block}
+  \begin{block}{Boucle temporelle}
+    Envoi d'une valeur de \(n_z\) et de \(p\) à chaque boucle temporelle.
+  \end{block}
+\end{frame}
+
+\begin{frame}[t]{Résultats des tests}
+  \begin{block}{Valeur envoyée dans l'intervalle admissible}
+    \begin{enumerate}
+      \item Comparaison entre la valeur envoyée et la valeur recue,
+      \item \texttt{True} si les deux valeurs sont identiques, \texttt{False}
+        sinon.
+    \end{enumerate}
+  \end{block}
+  \begin{block}{Valeur envoyée inférieure a la valeur minimale (resp.\
+      maximale) admissible}
+    \begin{enumerate}
+      \item Comparaison valeur reçue et valeur minimale (resp.\ maximale)
+        admissible,
+      \item \texttt{True} si égalité, \texttt{False} sinon.
+    \end{enumerate}
+  \end{block}
+  \begin{block}{Saturation}
+    L'orque les valeurs sont hors de l'intervalle admissible, le mini manche doit
+    renvoyer la borne la plus proche de l'intervalle.
+  \end{block}
+\end{frame}
 \end{document}
