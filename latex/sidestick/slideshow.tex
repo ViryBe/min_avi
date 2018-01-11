@@ -85,21 +85,21 @@
 \section{Boucle de scrutation}
 \begin{frame}[t]{Boucle de scrutation}
   \begin{block}{Déclenchement}
-    Lancée a chaque réception d'un message de la part de l'auto pilote.
+    Lancée à chaque réception d'un message de la part de l'auto pilote.
   \end{block}
 
   \begin{block}{Contenu}
     \begin{enumerate}
-      \item mise a jour état du mini manche (actif ou non)
+      \item mise à jour état du mini manche (actif ou non)
       \item si actif, lecture des données provenant du mini manche
-      \item vérification de la valeur
-      \item revoit de la valeur sur le bus.
+      \item vérification de la valeur (saturation)
+      \item renvoit de la valeur sur le bus.
     \end{enumerate}
   \end{block}
 
   \begin{block}{Distinction des grandeurs}
-    Une boucle ne concerne \emph{qu'une seule} grandeur, déterminée par le
-    message la déclenchant.
+    Une boucle ne concerne qu'une seule grandeur (\(n_z\) ou \(p\)),
+    déterminée par le message la déclenchant.
   \end{block}
 \end{frame}
 
@@ -112,7 +112,7 @@
   \end{block}
   \begin{block}{Interaction avec la file}
     \begin{itemize}
-      \item \texttt{get()} revoit les données du minimanche et vide la file.
+      \item \texttt{get()} renvoit les données du minimanche et vide la file.
       \item \texttt{get(evt)} ne traite que les événements du type \texttt{evt}.
     \end{itemize}
   \end{block}
@@ -123,7 +123,7 @@
   \begin{block}{Données}
     Chaque grandeur dispose
     \begin{itemize}
-      \item d'une liste contenant toutes les entrées depuis le dernière boucle
+      \item d'une liste contenant toutes les entrées depuis la dernière boucle
         la concernant,
       \item une variable \texttt{LASTAXISV} contenant la dernière
         valeur relevée.
@@ -132,7 +132,7 @@
   \begin{block}{Obtention des données}
     \begin{enumerate}
       \item La file d'événements est vidée dans une liste temporaire,
-      \item les événements de la file temporaire sont repartis entre les listes
+      \item les événements de la file temporaire sont répartis entre les listes
         correspondant aux grandeurs,
       \item la variable \texttt{LASTAXISV} correspondante est modifiée, et sa
         valeur est renvoyée.
@@ -140,10 +140,10 @@
   \end{block}
 \end{frame}
 
-\begin{frame}[t]{Gestion de l'auto pilot}
+\begin{frame}[t]{Gestion de l'auto pilote}
   \begin{block}{Besoin de thread}
-    L'appui de boutons pour désactiver l'auto pilote devant être effectif a tout
-    moment, un thread dédie est nécessaire.
+    L'appui de boutons pour désactiver l'auto pilote devant être effectif à tout
+    moment, un thread dédié est nécessaire.
   \end{block}
   \begin{block}{Contenu du thread}
     Boucle infinie appelant la procédure \texttt{update\_ap},
@@ -151,8 +151,8 @@
       \item récupérer l'état du pilote automatique via une variable
         globale,
       \item récolter des événements de la file concernant les appuis boutons,
-      \item si un bouton a été appuyé et que le pilote n'était pas enclenche,
-        alors desenclencher le pilote automatique,
+      \item si un bouton a été pressé et que le pilote n'était pas enclenché,
+        alors désenclencher le pilote automatique,
       \item renvoyer l'état de l'auto pilote.
     \end{enumerate}
   \end{block}
@@ -163,7 +163,7 @@
   \begin{block}{Définition des plages}
     \begin{itemize}
       \item \(n_z \in \mathbf{D}_{n_z} = [-1, 2.5]\)m\(\cdot\)s\(^{-2}\),
-      \item \(p \in \mathbf{D}_p = [-15, 15]\deg\).
+      \item \(p \in \mathbf{D}_p = [-15, 15]\deg\cdot\)s\(^{-1}\).
     \end{itemize}
   \end{block}
   \begin{block}{Conformité des données}
@@ -171,7 +171,7 @@
       \item Si auto pilote activé, les données passent par une
         fonction \(f\colon D \mapsto \mathbf{D}_{n_z}\) ou \(\mathbf{D}_p\),
       \item sinon, une fonction \(g\colon[-1, 1] \mapsto \mathbf{D}_{n_z}\) ou
-        \(\mathbf{D}_p\) associe a la valeur en sortie du mini manche une valeur
+        \(\mathbf{D}_p\) associe à la valeur en sortie du mini manche une valeur
         adéquate.
     \end{itemize}
   \end{block}
@@ -202,12 +202,13 @@
 \begin{frame}[t]{Résultats des tests}
   \begin{block}{Valeur envoyée dans l'intervalle admissible}
     \begin{enumerate}
-      \item Comparaison entre la valeur envoyée et la valeur recue,
+      \item Comparaison entre la valeur envoyée et la valeur reçue,
       \item \texttt{True} si les deux valeurs sont identiques, \texttt{False}
         sinon.
     \end{enumerate}
   \end{block}
-  \begin{block}{Valeur envoyée inférieure a la valeur minimale (resp.\
+  \pause
+  \begin{block}{Valeur envoyée inférieure à la valeur minimale (resp.\
       maximale) admissible}
     \begin{enumerate}
       \item Comparaison valeur reçue et valeur minimale (resp.\ maximale)
@@ -215,9 +216,21 @@
       \item \texttt{True} si égalité, \texttt{False} sinon.
     \end{enumerate}
   \end{block}
+  \pause
   \begin{block}{Saturation}
-    L'orque les valeurs sont hors de l'intervalle admissible, le mini manche doit
+    Lorsque les valeurs sont hors de l'intervalle admissible, le mini manche doit
     renvoyer la borne la plus proche de l'intervalle.
+  \end{block}
+\end{frame}
+
+\section*{Bilan}
+\begin{frame}[c]{Bilan}
+  \begin{block}{Safety nets}
+    Implémentés mais non fonctionnel à cause du vecteur d'état.
+  \end{block}
+  \begin{block}{Améliorations}
+    Ergonomie améliorable, e.g.\ relation non linéaire entre l'angle du
+    mini manche et la consigne.
   \end{block}
 \end{frame}
 \end{document}
