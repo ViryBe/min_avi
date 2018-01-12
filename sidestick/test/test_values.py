@@ -48,13 +48,16 @@ def rslt():
     with open('rslt.txt', 'w') as file:
         for sent,rcvd in zip(values_sent, values_received):
             if sent >= VALUE_MIN and sent <= VALUE_MAX:
-                file.write(sent, float(rcvd), cmp_float(float(rcvd), float(sent)))
+                file.write("s:" + str(sent) + "r:" + str(rcvd) +
+                           str(cmp_float(float(rcvd), float(sent))) + "\n")
                 # print(sent, float(rcvd), cmp_float(float(rcvd), float(sent)))
             elif sent < VALUE_MIN :
-                file.write(sent, float(rcvd), cmp_float(float(rcvd), float(VALUE_MIN)))
+                file.write("s:" + str(sent) + "r:" + str(rcvd) +
+                           str(cmp_float(float(rcvd), float(VALUE_MIN))) + "\n")
                 # print(sent, float(rcvd), cmp_float(float(rcvd), float(VALUE_MIN)))
             else :
-                file.write(sent, float(rcvd), cmp_float(float(rcvd), float(VALUE_MAX)))
+                file.write("s:" + str(sent) + "r:" + str(rcvd) +
+                           str(cmp_float(float(rcvd), float(VALUE_MAX))) + "\n")
                 # print(sent, float(rcvd), cmp_float(float(rcvd), float(VALUE_MAX)))
 
 def on_cx_proc(agent, connected):
