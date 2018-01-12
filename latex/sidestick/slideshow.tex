@@ -185,23 +185,22 @@
 
 \section{Tests}
 \begin{frame}[t]{Définition des tests}
-  \begin{block}{Valeurs de test}
+  \begin{block}{Tests de valeurs}
     Envoi d'une série de 10 valeurs aléatoires au mini manche,
     \begin{itemize}
       \item \(n_z \in [-5, 5]\),
       \item \(p \in [-30, 30]\).
     \end{itemize}
   \end{block}
-  \pause
-  \begin{block}{Test de valeurs}
+  \begin{block}{Boucle temporelle}
+    Envoi d'une valeur de \(n_z\) et de \(p\) à chaque boucle temporelle.
+  \end{block}
+  \begin{block}{Conformité des valeurs}
     Vérification de la conformité des valeurs en sortie,
     \begin{itemize}
       \item \(n_z \in [-1, 2.5]\),
       \item \(p \in [-15, 15]\).
     \end{itemize}
-  \end{block}
-  \begin{block}{Boucle temporelle}
-    Envoi d'une valeur de \(n_z\) et de \(p\) à chaque boucle temporelle.
   \end{block}
 \end{frame}
 
