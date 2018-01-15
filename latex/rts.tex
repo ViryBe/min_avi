@@ -73,7 +73,7 @@ Three types of rts:
 
 \paragraph{Lifetime of data}
 Data must be processed quickly enough, as they might be transient (e.g.\ gnss
-location while moving). To manage data, they are timestamped. This timestamp is
+location while moving). To manage data, they are timestamped. This time stamp is
 examined before processing data to verify whether the data is relevant.
 
 \subsection{Time factor}
@@ -83,7 +83,7 @@ Application based real time systems
 		processing to an event.
 	\item Urgency: Require to impose a priority hierarchy taking into account
 		simultaneous event requests while insuring that each event could be
-		dealt with within its own time limit (delivery time). Enables conceptor
+		dealt with within its own time limit (delivery time). Enables developer
 		to set priorities to tasks.
 \end{compactitem}
 
@@ -206,13 +206,13 @@ Multi purpose os
 \section{Simulation}
 \begin{defn}
 	[Stimulation]
-	Generate and send inputs to a real equippment using its real interface.
+	Generate and send inputs to a real equipment using its real interface.
 \end{defn}
 
 \begin{defn}
 	[Emulation]
-	Reproduce the behaviour of a hardaware by a software. As the hardware is
-	perfectly known, theemulation reproduce perfectly the hardware behaviour.
+	Reproduce the behaviour of a hardware by a software. As the hardware is
+	perfectly known, the emulation reproduces perfectly the hardware behaviour.
 \end{defn}
 
 \begin{defn}
@@ -241,7 +241,7 @@ Several times
 \begin{compactitem}
 	\item time of real life
 	\item time a process is schedule
-	\item executiom time of a process
+	\item execution time of a process
 \end{compactitem}
 \begin{rem}
 	Pay attention to scheduling and the info gathering delay.
@@ -255,14 +255,14 @@ Software calling period must be used.
 Interruptions
 
 \subsubsection{Continuous events and simulation}
-Mixes continuous behaviour and descrete events, uses hybrid simulations.
+Mixes continuous behaviour and discrete events, uses hybrid simulations.
 \begin{compactitem}
 	\item tolerating delays in treatment, interruptions with high priority
 	\item no delay possible
 \end{compactitem}
 
 \subsubsection{Aperiodic tasks}
-For background computating. An aperiodic task is processed when the cpu happens
+For background computing. An aperiodic task is processed when the cpu happens
 to be idle. Determinism is jeopardised but might be necessary.
 
 \subsection{Simulation modes}
@@ -271,7 +271,7 @@ Mode specifies processing, by block
 	\item launch (async): cleaning memory, config file loading, data loading
 	\item initialisation: set reasonable values to all outputs
 	\item stabilisation: used with flight model, sets a trimmed flight when
-		the session starts (zero accelerations) ofter uses a recursive
+		the session starts (zero accelerations) often uses a recursive
 		converging algorithm \( f(n) = f(n-1) + k\cdot \omega \) (synchronous)
 	\item real time
 	\item special case, freeze state: suspend simulation, two ways to implement
@@ -299,14 +299,14 @@ Safety issues, failure of a function must not endanger other functions.
 Main benefits:
 \begin{compactitem}
 	\item easier to certify
-	\item less spare needed as fewer specific models used (genericiy)
+	\item less spare needed as fewer specific models used (generic)
 \end{compactitem}
 
 Main characteristics
 \begin{compactitem}
 	\item standardized interface
 	\item shared resources and partitioning
-	\item application software functional independance
+	\item application software functional independence
 	\item fault tolerance
 \end{compactitem}
 
@@ -316,9 +316,9 @@ Uses afdx (patented by airbus).
 
 \begin{compactitem}
 	\item Strict allocation to each system application
-	\item Periodic ficesd scheduling at application level
-	\item no prioritisationat application level
-	\item derterministic slicing methodology
+	\item Periodic fixed scheduling at application level
+	\item no prioritisation at application level
+	\item deterministic slicing methodology
 	\item uninterrupted access to common resources during assigned time periods
 		of partitions
 \end{compactitem}
@@ -327,7 +327,7 @@ Uses afdx (patented by airbus).
 The performance of each system must be unaffected by any other,
 \begin{compactitem}
 	\item safety concern: segregation and various DAL,
-	\item industrial concern: independant integration on patform and independant
-		evolutions of applications.
+	\item industrial concern: independent integration on platform and
+      independent evolutions of applications.
 \end{compactitem}
 \end{document}
